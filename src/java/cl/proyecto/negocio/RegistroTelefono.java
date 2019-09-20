@@ -68,6 +68,26 @@ public class RegistroTelefono {
         return telefono;
     }
     
+    public ArrayList<Telefono> listarTelefonoPorId(int persona_id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where persona_id = ?");
+        sm.setInt(1, persona_id);
+        ResultSet rs = sm.executeQuery();
+        ArrayList<Telefono> telefonos = new ArrayList<>();
+        while(rs.next())
+        {
+            int id = rs.getInt("id");
+            int numero = rs.getInt("numero");
+            String prefijo = rs.getString("prefijo");
+            int telefonoId = rs.getInt("telefono_id");            
+            Telefono telefono = new  Telefono(id, numero, prefijo, telefonoId, persona_id);
+            telefonos.add(telefono);
+        }
+        sm.close();
+        return telefonos;
+    }
+    
+    
     public ArrayList<Telefono> listarTelefono() throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono");

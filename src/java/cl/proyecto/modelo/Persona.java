@@ -5,6 +5,7 @@
  */
 package cl.proyecto.modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -20,12 +21,12 @@ public class Persona {
     private String apellidoManterno;
     private Date fechaNacimiento;
     private String email;
-    private Telefono[] telefono;
+    private ArrayList<Telefono> telefono;
     private CuentaUsuario cuenta;
     private Genero genero;
     private Direccion direccion;
 
-    public Persona(int id, int run, char dv, String nombre, String apellidoPaterno, String apellidoManterno, Date fechaNacimiento, String email, Telefono[] telefono, CuentaUsuario cuenta, Genero genero, Direccion direccion) {
+    public Persona(int id, int run, char dv, String nombre, String apellidoPaterno, String apellidoManterno, Date fechaNacimiento, String email, ArrayList<Telefono> telefono, CuentaUsuario cuenta, Genero genero, Direccion direccion) {
         this.id = id;
         this.run = run;
         this.dv = dv;
@@ -104,11 +105,11 @@ public class Persona {
         this.email = email;
     }
 
-    public Telefono[] getTelefono() {
+    public ArrayList<Telefono> getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Telefono[] telefono) {
+    public void setTelefono(ArrayList<Telefono> telefono) {
         this.telefono = telefono;
     }
 
