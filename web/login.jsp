@@ -5,10 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es-CL">
 <head>
-	<title>Login V10</title>
+	<title>Encuestado2</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -32,7 +33,9 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/estilo.css">
 <!--===============================================================================================-->
+	
 </head>
 <body>
 	
@@ -44,9 +47,14 @@
 						Encuestado2
 					</span>
 
-					
+					<div>
+                                            <c:if test="${sessionScope.loginError != null}">
+                                                <p class="error">${sessionScope.loginError.toString()}</p>
+                                                <c:set var="loginError" value="${null}" scope="session"></c:set>
+                                            </c:if>
+					</div>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Run es requerido">
-						<input class="input100" type="text" name="username" placeholder="12345678-9" pattern="[0-9]{7,8}[kK0-9]{1}">
+						<input class="input100" type="text" name="run" placeholder="12345678-9" pattern="([0-9]{7,8}-)([kK0-9]{1})">
 						<span class="focus-input100"></span>
 					</div>
 					

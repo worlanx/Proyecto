@@ -5,8 +5,13 @@
  */
 package cl.proyecto.servlet;
 
+import cl.proyecto.modelo.Persona;
+import cl.proyecto.negocio.RegistroPersona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +75,36 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            String run = request.getParameter("run").replace("-", "");           
+            String pass = request.getParameter("pass");
+            RegistroPersona regPersona = new RegistroPersona();
+            Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
+            if(persona != null)
+            {
+                request.getSession().setAttribute("persona", persona);            
+                switch(persona.getCuenta().getRol())
+                {
+                    case 1: System.out.println("admin"); ;break;
+                    case 2: System.out.println("Jefe Persona"); ;break;
+                    case 3: System.out.println("Jefe de Estudio"); ;break;
+                    case 4: System.out.println("Encuestador"); ;break;
+                }
+            }
+            else
+            {
+                request.getSession().setAttribute("loginError", "Usuario o contraseña son incorrecto");
+                response.sendRedirect("login.jsp");
+            }
+           
+            
+            //processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("loginError", "No se pudo contectar con el servidor, vuelva a internarlo");
+            response.sendRedirect("login.jsp");
+        }
     }
 
     /**

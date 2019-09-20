@@ -21,7 +21,7 @@ public class Conexion {
     {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://rds-mysql-10mintutorial.c1bhxbclygya.us-east-1.rds.amazonaws.com","masterUsername","Qwer.1234");   
+            conn = DriverManager.getConnection("jdbc:mysql://rds-mysql-10mintutorial.c1bhxbclygya.us-east-1.rds.amazonaws.com/proyecto","masterUsername","Qwer.1234");   
         }
         catch(ClassNotFoundException | SQLException ex){
             System.out.println(ex.getMessage());
