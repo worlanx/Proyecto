@@ -10,6 +10,7 @@ import cl.proyecto.negocio.RegistroPersona;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -40,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
@@ -61,7 +62,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        request.getSession().setAttribute("persona", null);
+        request.getSession().setAttribute("rol_id", -1);
+        response.sendRedirect("login.jsp");
     }
 
     /**
@@ -75,30 +79,41 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try {
-            String run = request.getParameter("run").replace("-", "");           
+            String run = request.getParameter("run").replace("-", "");
             String pass = request.getParameter("pass");
             RegistroPersona regPersona = new RegistroPersona();
             Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
-            if(persona != null)
-            {
-                request.getSession().setAttribute("persona", persona);            
-                switch(persona.getCuenta().getRol())
-                {
-                    case 1: System.out.println("admin"); ;break;
-                    case 2: System.out.println("Jefe Persona"); ;break;
-                    case 3: System.out.println("Jefe de Estudio"); ;break;
-                    case 4: System.out.println("Encuestador"); ;break;
+            if (persona != null) {
+                request.getSession().setAttribute("persona", persona);
+                request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
+                switch (persona.getCuenta().getRol().getId()) {
+                    case 1:
+                        ArrayList<Persona> personas = regPersona.listarPersona();
+                        request.getSession().setAttribute("personas", personas);
+                        request.getSession().setAttribute("cantidad", personas.size());
+                        response.sendRedirect("administrador.jsp");
+                        ;
+                        break;
+                    case 2:
+                        System.out.println("Jefe Persona");
+                        ;
+                        break;
+                    case 3:
+                        System.out.println("Jefe de Estudio");
+                        ;
+                        break;
+                    case 4:
+                        System.out.println("Encuestador");
+                        ;
+                        break;
                 }
-            }
-            else
-            {
+            } else {
                 request.getSession().setAttribute("loginError", "Usuario o contraseña son incorrecto");
                 response.sendRedirect("login.jsp");
             }
-           
-            
+
             //processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

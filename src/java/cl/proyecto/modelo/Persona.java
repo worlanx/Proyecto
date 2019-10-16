@@ -18,7 +18,7 @@ public class Persona {
     private char dv;
     private String nombre;
     private String apellidoPaterno;
-    private String apellidoManterno;
+    private String apellidoMaterno;
     private Date fechaNacimiento;
     private String email;
     private ArrayList<Telefono> telefono;
@@ -26,13 +26,13 @@ public class Persona {
     private Genero genero;
     private Direccion direccion;
 
-    public Persona(int id, int run, char dv, String nombre, String apellidoPaterno, String apellidoManterno, Date fechaNacimiento, String email, ArrayList<Telefono> telefono, CuentaUsuario cuenta, Genero genero, Direccion direccion) {
+    public Persona(int id, int run, char dv, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String email, ArrayList<Telefono> telefono, CuentaUsuario cuenta, Genero genero, Direccion direccion) {
         this.id = id;
         this.run = run;
         this.dv = dv;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoManterno = apellidoManterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
         this.telefono = telefono;
@@ -81,12 +81,12 @@ public class Persona {
         this.apellidoPaterno = apellidoPaterno;
     }
 
-    public String getApellidoManterno() {
-        return apellidoManterno;
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
-    public void setApellidoManterno(String apellidoManterno) {
-        this.apellidoManterno = apellidoManterno;
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public Date getFechaNacimiento() {
@@ -135,11 +135,5 @@ public class Persona {
 
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
-    }
-
-   
-
-   
-    
-    
+    }    
 }

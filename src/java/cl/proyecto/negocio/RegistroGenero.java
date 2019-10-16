@@ -7,7 +7,6 @@ package cl.proyecto.negocio;
 
 import cl.proyecto.conexion.Conexion;
 import cl.proyecto.modelo.Genero;
-import cl.proyecto.modelo.TipoTelefono;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

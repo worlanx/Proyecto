@@ -34,7 +34,7 @@ public class RegistroPersona {
         sm.setString(2, String.valueOf(persona.getDv()));
         sm.setString(3, persona.getNombre());
         sm.setString(4, persona.getApellidoPaterno());
-        sm.setString(5, persona.getApellidoManterno());
+        sm.setString(5, persona.getApellidoMaterno());
         sm.setDate(6, (java.sql.Date)persona.getFechaNacimiento());
         sm.setString(7, persona.getEmail());
         sm.setInt(8, persona.getGenero().getId());
@@ -67,7 +67,7 @@ public class RegistroPersona {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update persona set nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, email = ? ,genero_id = ?, direccion_id = ? where run = ? ");
         sm.setString(1, persona.getNombre());
         sm.setString(2, persona.getApellidoPaterno());
-        sm.setString(3, persona.getApellidoManterno());
+        sm.setString(3, persona.getApellidoMaterno());
         sm.setDate(4, (java.sql.Date)persona.getFechaNacimiento());
         sm.setString(5, persona.getEmail());
         sm.setInt(6, persona.getGenero().getId());
@@ -83,7 +83,7 @@ public class RegistroPersona {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update persona set nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, email = ? ,genero_id = ?, direccion_id = ? where id = ? ");
         sm.setString(1, persona.getNombre());
         sm.setString(2, persona.getApellidoPaterno());
-        sm.setString(3, persona.getApellidoManterno());
+        sm.setString(3, persona.getApellidoMaterno());
         sm.setDate(4, (java.sql.Date)persona.getFechaNacimiento());
         sm.setString(5, persona.getEmail());
         sm.setInt(6, persona.getGenero().getId());
@@ -138,7 +138,9 @@ public class RegistroPersona {
             int cuentaId = rs.getInt("cuenta_id");
             String usuario = rs.getString("usuario");
             String contrasenia = rs.getString("contraseña");
-            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rolId, id);
+                       
+            
+            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rol, id);
             //Telefono
             RegistroTelefono regTelefono = new RegistroTelefono();
             ArrayList<Telefono> telefono = regTelefono.listarTelefonoPorId(id);            
@@ -191,7 +193,7 @@ public class RegistroPersona {
             int cuentaId = rs.getInt("cuenta_id");
             String usuario = rs.getString("usuario");
             String contrasenia = rs.getString("contraseña");
-            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rolId, id);
+            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rol, id);
             //Telefono
             RegistroTelefono regTelefono = new RegistroTelefono();
             ArrayList<Telefono> telefono = regTelefono.listarTelefonoPorId(id);            
@@ -244,7 +246,7 @@ public class RegistroPersona {
             Rol rol = new Rol(rolId, descripcionRol);
             //usuario
             int cuentaId = rs.getInt("cuenta_id");           
-            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rolId, id);
+            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rol, id);
             //Telefono
             RegistroTelefono regTelefono = new RegistroTelefono();
             ArrayList<Telefono> telefono = regTelefono.listarTelefonoPorId(id);            
@@ -297,7 +299,7 @@ public class RegistroPersona {
             int cuentaId = rs.getInt("cuenta_id");           
             String usuario = rs.getString("usuario");
             String contrasenia = rs.getString("contraseña");
-            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rolId, id);
+            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rol, id);
             //Telefono
             RegistroTelefono regTelefono = new RegistroTelefono();
             ArrayList<Telefono> telefono = regTelefono.listarTelefonoPorId(id);            

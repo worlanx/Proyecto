@@ -13,10 +13,10 @@ public class CuentaUsuario {
     private int id;
     private String usuario;
     private String contrasenia;
-    private int rol;
+    private Rol rol;
     private int persona;
 
-    public CuentaUsuario(int id, String usuario, String contrasenia, int rol, int persona) {
+    public CuentaUsuario(int id, String usuario, String contrasenia, Rol rol, int persona) {
         this.id = id;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
@@ -48,11 +48,11 @@ public class CuentaUsuario {
         this.contrasenia = contrasenia;
     }
 
-    public int getRol() {
+    public Rol getRol() {
         return rol;
     }
 
-    public void setRol(int rol) {
+    public void setRol(Rol rol) {
         this.rol = rol;
     }
 
@@ -63,6 +63,8 @@ public class CuentaUsuario {
     public void setPersona(int persona) {
         this.persona = persona;
     }
+
+   
 
     
     
