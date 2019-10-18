@@ -21,7 +21,7 @@ public class RegistroCuentaUsuario {
     
     public int agregar(CuentaUsuario cuentaUsuario) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("insert into cuenta_usuario(usuario,contraseña,rol_id,persona_id) values(?,?,?,?)");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("insert into cuenta_usuario(usuario,contraseña,rol_id,persona_id) values(?,md5(?),?,?)");
         sm.setString(1, cuentaUsuario.getUsuario());
         sm.setString(2, cuentaUsuario.getContrasenia());
         sm.setInt(3, cuentaUsuario.getRol().getId());

@@ -44,5 +44,9 @@ public class Comuna {
         this.privencia = privencia;
     }
     
+    @Override
+    public String toString() {
+        return String.format("%s-%s*%s", getId(),getDescripcion().replace("'", "´"),getPrivencia());
+    }
     
 }

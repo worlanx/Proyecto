@@ -12,11 +12,13 @@ package cl.proyecto.modelo;
 public class Direccion {
     private int id;
     private String descripcion;
+    private String detalle;
     private int comuna;
 
-    public Direccion(int id, String descripcion, int comuna) {
+    public Direccion(int id, String descripcion, String detalle, int comuna) {
         this.id = id;
         this.descripcion = descripcion;
+        this.detalle = detalle;
         this.comuna = comuna;
     }
 
@@ -36,6 +38,14 @@ public class Direccion {
         this.descripcion = descripcion;
     }
 
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
     public int getComuna() {
         return comuna;
     }
@@ -43,5 +53,7 @@ public class Direccion {
     public void setComuna(int comuna) {
         this.comuna = comuna;
     }
+
+   
     
 }

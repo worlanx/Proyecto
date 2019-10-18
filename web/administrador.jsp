@@ -44,7 +44,7 @@
         <br>
         <div class="container">
             <div class="row justify-content-end">
-                <a href="crearcuenta.jsp"><button class="btn btn-success">Registrar Usuario</button></a>
+                <a href="crearcuentausuario.jsp"><button class="btn btn-success">Registrar Usuario</button></a>
             </div>
         </div>
         <br>
@@ -102,8 +102,20 @@
                             </c:forEach>
                             </tbody>
                         </c:when>
+                        <c:otherwise>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">n/a</th>
+                                    <td>n/a</td>
+                                    <td>n/a</td>
+                                    <td>n/a</td>
+                                    <td>n/a</td>
+                                </tr>
+                            </tbody>
+                        </c:otherwise>
                     </c:choose>
-            </div>
+                </table>
+            </div>            
         </div>
     </body>
     <script>

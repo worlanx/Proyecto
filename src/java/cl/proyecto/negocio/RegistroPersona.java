@@ -35,7 +35,7 @@ public class RegistroPersona {
         sm.setString(3, persona.getNombre());
         sm.setString(4, persona.getApellidoPaterno());
         sm.setString(5, persona.getApellidoMaterno());
-        sm.setDate(6, (java.sql.Date)persona.getFechaNacimiento());
+        sm.setDate(6, (new  java.sql.Date(persona.getFechaNacimiento().getTime())));
         sm.setString(7, persona.getEmail());
         sm.setInt(8, persona.getGenero().getId());
         sm.setInt(9, persona.getDireccion().getId());
@@ -68,7 +68,7 @@ public class RegistroPersona {
         sm.setString(1, persona.getNombre());
         sm.setString(2, persona.getApellidoPaterno());
         sm.setString(3, persona.getApellidoMaterno());
-        sm.setDate(4, (java.sql.Date)persona.getFechaNacimiento());
+        sm.setDate(4, (new  java.sql.Date(persona.getFechaNacimiento().getTime())));
         sm.setString(5, persona.getEmail());
         sm.setInt(6, persona.getGenero().getId());
         sm.setInt(7, persona.getDireccion().getId());
@@ -84,7 +84,7 @@ public class RegistroPersona {
         sm.setString(1, persona.getNombre());
         sm.setString(2, persona.getApellidoPaterno());
         sm.setString(3, persona.getApellidoMaterno());
-        sm.setDate(4, (java.sql.Date)persona.getFechaNacimiento());
+        sm.setDate(4, (new  java.sql.Date(persona.getFechaNacimiento().getTime())));
         sm.setString(5, persona.getEmail());
         sm.setInt(6, persona.getGenero().getId());
         sm.setInt(7, persona.getDireccion().getId());
@@ -94,9 +94,21 @@ public class RegistroPersona {
         return res;
     }
     
+    public int obtenerIdPorRun(int run) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id from persona where run = ?");
+        sm.setInt(1, run);
+        ResultSet rs = sm.executeQuery();
+        int id = -1;
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+        return id;
+    }
+    
     public Persona obtenerPersonaPorRun(int run) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where run  = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento,comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where run  = ?");
         sm.setInt(1, run);
         ResultSet rs = sm.executeQuery();
         Persona persona = null;
@@ -114,10 +126,7 @@ public class RegistroPersona {
             int generoId = rs.getInt("genero_id");
             String descripcionGenero = rs.getString("genero");
             Genero genero = new Genero(generoId, descripcionGenero);
-            //direccion
-            int direccionId = rs.getInt("direccion_id");
-            String descripcionDireccion = rs.getString("direccion");
-            Direccion direccion = new Direccion(direccionId, descripcionDireccion, run);
+            
             //region
             int regionId = rs.getInt("region_id");
             String descripcionRegion = rs.getString("region");
@@ -129,7 +138,12 @@ public class RegistroPersona {
             //comuna
             int comunaId = rs.getInt("comuna_id");
             String descripcionComuna = rs.getString("comuna");     
-            Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);
+            Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);            
+            //direccion
+            int direccionId = rs.getInt("direccion_id");
+            String descripcionDireccion = rs.getString("direccion");
+            String detalle = rs.getString("departamento");
+            Direccion direccion = new Direccion(direccionId, descripcionDireccion, detalle, comunaId);            
             //rol
             int rolId = rs.getInt("rol_id");
             String descripcionRol = rs.getString("rol");
@@ -151,7 +165,7 @@ public class RegistroPersona {
     
     public Persona obtenerPersonaPorId(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where id  = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where id  = ?");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Persona persona = null;
@@ -168,11 +182,7 @@ public class RegistroPersona {
             //genero
             int generoId = rs.getInt("genero_id");
             String descripcionGenero = rs.getString("genero");
-            Genero genero = new Genero(generoId, descripcionGenero);
-            //direccion
-            int direccionId = rs.getInt("direccion_id");
-            String descripcionDireccion = rs.getString("direccion");
-            Direccion direccion = new Direccion(direccionId, descripcionDireccion, run);
+            Genero genero = new Genero(generoId, descripcionGenero);         
             //region
             int regionId = rs.getInt("region_id");
             String descripcionRegion = rs.getString("region");
@@ -185,6 +195,11 @@ public class RegistroPersona {
             int comunaId = rs.getInt("comuna_id");
             String descripcionComuna = rs.getString("comuna");     
             Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);
+            //direccion
+            int direccionId = rs.getInt("direccion_id");
+            String descripcionDireccion = rs.getString("direccion");
+            String detalle = rs.getString("departamento");
+            Direccion direccion = new Direccion(direccionId, descripcionDireccion, detalle, comunaId);
             //rol
             int rolId = rs.getInt("rol_id");
             String descripcionRol = rs.getString("rol");
@@ -204,7 +219,7 @@ public class RegistroPersona {
     
     public Persona obtenerPersonaPorUsuario(String usuario, String contrasenia) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where usuario = ? and contraseña = md5(?)");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where usuario = ? and contraseña = md5(?)");
         sm.setString(1, usuario);
         sm.setString(2, contrasenia);
         ResultSet rs = sm.executeQuery();
@@ -224,10 +239,6 @@ public class RegistroPersona {
             int generoId = rs.getInt("genero_id");
             String descripcionGenero = rs.getString("genero");
             Genero genero = new Genero(generoId, descripcionGenero);
-            //direccion
-            int direccionId = rs.getInt("direccion_id");
-            String descripcionDireccion = rs.getString("direccion");
-            Direccion direccion = new Direccion(direccionId, descripcionDireccion, run);
             //region
             int regionId = rs.getInt("region_id");
             String descripcionRegion = rs.getString("region");
@@ -240,6 +251,11 @@ public class RegistroPersona {
             int comunaId = rs.getInt("comuna_id");
             String descripcionComuna = rs.getString("comuna");     
             Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);
+            //direccion
+            int direccionId = rs.getInt("direccion_id");
+            String descripcionDireccion = rs.getString("direccion");
+            String detalle = rs.getString("departamento");
+            Direccion direccion = new Direccion(direccionId, descripcionDireccion, detalle, comunaId);
             //rol
             int rolId = rs.getInt("rol_id");
             String descripcionRol = rs.getString("rol");
@@ -257,7 +273,7 @@ public class RegistroPersona {
     
     public ArrayList<Persona> listarPersona() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios");
         ResultSet rs = sm.executeQuery();
         ArrayList<Persona> personas = new ArrayList<>();        
         while (rs.next()) {
@@ -274,11 +290,7 @@ public class RegistroPersona {
             //genero
             int generoId = rs.getInt("genero_id");
             String descripcionGenero = rs.getString("genero");
-            Genero genero = new Genero(generoId, descripcionGenero);
-            //direccion
-            int direccionId = rs.getInt("direccion_id");
-            String descripcionDireccion = rs.getString("direccion");
-            Direccion direccion = new Direccion(direccionId, descripcionDireccion, run);
+            Genero genero = new Genero(generoId, descripcionGenero);            
             //region
             int regionId = rs.getInt("region_id");
             String descripcionRegion = rs.getString("region");
@@ -291,6 +303,11 @@ public class RegistroPersona {
             int comunaId = rs.getInt("comuna_id");
             String descripcionComuna = rs.getString("comuna");     
             Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);
+            //direccion
+            int direccionId = rs.getInt("direccion_id");
+            String descripcionDireccion = rs.getString("direccion");
+            String detalle = rs.getString("departamento");
+            Direccion direccion = new Direccion(direccionId, descripcionDireccion, detalle, comunaId);
             //rol
             int rolId = rs.getInt("rol_id");
             String descripcionRol = rs.getString("rol");

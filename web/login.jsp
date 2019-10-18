@@ -17,46 +17,50 @@
         <meta charset="UTF-8">	
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row center-xs middle-xs">
-                <form class="form-horizontal" action="LoginServlet" method="POST">
-                    <div class="row justify-content-center">
-                        <span class="login100-form-title p-b-51">
-                            Encuestado2
-                        </span>
+                <form action="LoginServlet" method="POST">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="box">
+                            <label>Encuestado2</label>
+                        </div>                        
                     </div>
-                    <div class="row justify-content-center">                
-                        <div class="form-group" >
-                            <label class="col-xs-12 control-label" for="Run">Run</label>  
-                            <div class="col-md-12">
-                                <input id="Run" name="run" type="text" placeholder="12345678-k" class="form-control input-md" required="" pattern="([0-9]{7,8}-)([kK0-9]{1})">                                       
-                            </div>
-                        </div>                
+            </div>
+            <div class="row center-xs middle-xs">
+                <div class="col-xs-12 col-md-4">
+                    <div class="form-group box">
+                        <label for="run">Run</label>
+                        <input type="text" class="form-control" id="run" name="run" required="true" pattern="([0-9]{7,8}-)([kK0-9]{1})" placeholder="ej: 12345678-k" title="12345678-k">
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="form-group">
-                            <label class="col-md-12 control-label" for="Contraseña">Contraseña</label>
-                            <div class="col-md-12">
-                                <input id="Contraseña" name="pass" type="password" placeholder="" class="form-control input-md" required="">                                
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div class="row center-xs middle-xs">
+                <div class="col-xs-12 col-md-4">
+                    <div class="form-group box">
+                        <label for="pass">Contraseña</label>
+                        <input type="password" class="form-control" id="pass" name="pass" required="true" minlength="6">
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="form-group">
-                            <label class="col-md-6 control-label" for=""></label>
-                            <div class="col-md-6">
-                                <input type="submit" name="login" value="Ingresar" class="btn btn-success"></button>
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div class="row center-xs middle-xs">
+                <div class="col-xs-12 col-md-4">
+                    <div class="form-group box">                                    
+                        <input type="submit" class="btn btn-success" id="login" name="ingresar" value="Ingresar">
                     </div>
-                    <div class="row justify-content-center">
+                </div>
+            </div>
+            <div class="row center-xs middle-xs">
+                <div class="col-xs-12 col-md-4">
+                    <div class="box">
                         <c:if test="${sessionScope.loginError != null}">
                             <p class="error">${sessionScope.loginError.toString()}</p>
                             <c:set var="loginError" value="${null}" scope="session"></c:set>
                         </c:if>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </body>
+        </form>
+    </div>
+</div>
+</body>
 </html>

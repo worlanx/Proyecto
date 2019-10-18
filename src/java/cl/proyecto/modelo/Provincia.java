@@ -43,5 +43,11 @@ public class Provincia {
     public void setRegion(int region) {
         this.region = region;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s-%s*%s", getId(),getDescripcion(),getRegion());
+    }
+    
     
 }

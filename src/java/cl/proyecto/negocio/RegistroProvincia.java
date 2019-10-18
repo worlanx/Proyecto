@@ -45,6 +45,7 @@ public class RegistroProvincia {
             String descripcion = rs.getString("descripcion");
             int regionId = rs.getInt("region_id");            
             Provincia provincia = new Provincia(id, descripcion, regionId);
+            provincias.add(provincia);
         }
         sm.close();
         return provincias;

@@ -35,7 +35,7 @@ public class RegistroGenero {
     
     public ArrayList<Genero> listarGenero() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero where");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero");
         ResultSet rs = sm.executeQuery();
         ArrayList<Genero> generos = new ArrayList<>();
         while(rs.next())

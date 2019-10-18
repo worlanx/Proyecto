@@ -6,7 +6,12 @@
 package cl.proyecto.servlet;
 
 import cl.proyecto.modelo.Persona;
+import cl.proyecto.negocio.RegistroComuna;
+import cl.proyecto.negocio.RegistroGenero;
 import cl.proyecto.negocio.RegistroPersona;
+import cl.proyecto.negocio.RegistroProvincia;
+import cl.proyecto.negocio.RegistroRegion;
+import cl.proyecto.negocio.RegistroRol;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -86,6 +91,22 @@ public class LoginServlet extends HttpServlet {
             RegistroPersona regPersona = new RegistroPersona();
             Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
             if (persona != null) {
+                
+                RegistroRol registroRol = new RegistroRol();
+                request.getSession().setAttribute("roles", registroRol.listarRoles());
+                
+                RegistroGenero registroGenero = new RegistroGenero();
+                request.getSession().setAttribute("generos", registroGenero.listarGenero());
+                
+                RegistroRegion registroRegion = new RegistroRegion();
+                request.getSession().setAttribute("regiones", registroRegion.listarRegiones());
+                
+                RegistroProvincia registroProvincia = new RegistroProvincia();
+                request.getSession().setAttribute("provincias", registroProvincia.listarProvincias());
+                
+                RegistroComuna registroComuna = new RegistroComuna();
+                request.getSession().setAttribute("comunas", registroComuna.listarComuna());
+                
                 request.getSession().setAttribute("persona", persona);
                 request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
                 switch (persona.getCuenta().getRol().getId()) {
@@ -101,7 +122,7 @@ public class LoginServlet extends HttpServlet {
                         ;
                         break;
                     case 3:
-                        System.out.println("Jefe de Estudio");
+                        response.sendRedirect("jefedeestudio.jsp");
                         ;
                         break;
                     case 4:
