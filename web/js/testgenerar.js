@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $("#add").click(function () {
 
@@ -29,7 +30,7 @@ $(document).ready(function () {
         //múltiple
         var divMultiple = $("<div class=\"col-xs-12 col-md-3\">");
         var divGrupoMultiple = $(" <div class=\"form-group\">");
-        var checkMultiple = $("<input type=\"checkbox\" name=\"multiple" + id + "\" value=\"1\"><span> Selección Múltiple</span>");
+        var checkMultiple = $("<input type=\"checkbox\" name=\"multiple" + id + "\" value=\"1\"><span>Selección Múltiple</span>");
 
         //alternativa default
         var divAlternativas = $("<div class=\"alternativa" + id + "\">");       
