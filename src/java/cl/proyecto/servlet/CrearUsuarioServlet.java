@@ -164,7 +164,7 @@ public class CrearUsuarioServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("cuentaError", "No se pudo registar la cuenta, verifique la información");
-                response.sendRedirect("crearcuentausuario.jsp");
+            response.sendRedirect("crearcuentausuario.jsp");
         } catch (ParseException ex) {
             Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

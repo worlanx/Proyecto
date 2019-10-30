@@ -22,7 +22,7 @@ public class RegistroEncuesta {
     
     public int agregar(Encuesta encuesta) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("insert into encuesta(titulo,valor,estado_id) values(?,?,?,?)");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("insert into encuesta(titulo,valor,estado_id) values(?,?,?)");
         sm.setString(1, encuesta.getTitulo());
         sm.setInt(2, encuesta.getValor());
         sm.setInt(3, encuesta.getEstado().getId());  
@@ -73,7 +73,17 @@ public class RegistroEncuesta {
         return  encuesta;
     }  
     
-    
+    public int obtenerEncuestaId() throws SQLException{
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select max(id) as id from encuesta");       
+        ResultSet rs = sm.executeQuery();
+        int id = -1;
+        while (rs.next()) {            
+            id = rs.getInt("id");
+        }
+        sm.close();
+        return  id;
+    }
+        
     public ArrayList<Encuesta> listarEncuestas() throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta");

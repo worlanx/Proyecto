@@ -51,9 +51,23 @@
                 </div>
             </div>
         </div>
-        <article>
-            <form action="" method="POST">
-                <div class="container">                
+        <article>            
+            <form action="CrearEncuestaServlet" method="POST" autocomplete="off">
+                <div class="container">     
+                    <div class="row center-xs middle-xs">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="box">
+                                <c:if test="${sessionScope.encuestaError != null}">
+                                    <p style="color: red" class="error">${sessionScope.encuestaError.toString()}</p>
+                                    <c:set var="encuestaError" value="${null}" scope="session"></c:set>
+                                </c:if>
+                                <c:if test="${sessionScope.encuestaExito != null}">
+                                    <p style="color: greenyellow" class="error">${sessionScope.encuestaExito.toString()}</p>
+                                    <c:set var="encuestaExito" value="${null}" scope="session"></c:set>
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row center-xs">
                         <div class="col-xs-12  col-md-8">
                             <div class="form-group">

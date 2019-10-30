@@ -19,6 +19,11 @@ public class TipoPregunta {
         this.descripcion = descripcion;
     }
 
+    public TipoPregunta(int id) {
+        this.id = id;
+        descripcion = "";
+    }  
+    
     public int getId() {
         return id;
     }

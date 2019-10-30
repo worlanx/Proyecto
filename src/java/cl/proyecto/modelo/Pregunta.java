@@ -26,6 +26,12 @@ public class Pregunta {
         this.encuesta_id = encuesta_id;
     }
 
+    public Pregunta(String titulo, TipoPregunta tipo, int encuesta_id) {
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.encuesta_id = encuesta_id;
+    }
+
     public int getId() {
         return id;
     }

@@ -8,8 +8,9 @@ $(document).ready(function () {
         var rowPregunta = $("<div class=\"row center-xs\">");
         var divPregunta = $("<div class=\"col-xs-12 col-md-8\">");
         var divGrupoPregunta = $("<div class=\"pre form-group\">");
-        var id = document.getElementsByClassName("pre").length + 1;
-        var pregunta = $("<textarea name=\"pregunta" + id + "\" class=\"fieldname form-control\" required=\"true\" placeholder=\"ej: ¿Qué le parece...?\" maxlength=\"100\"></textarea>");
+        var id = document.getElementsByClassName("pre").length + 1;        
+        var pregunta = $("<textarea name=\"pregunta\" class=\"fieldname form-control\" required=\"true\" placeholder=\"ej: ¿Qué le parece...?\" maxlength=\"100\"></textarea>");
+        var preguntaHidden = $("<input type=\"hidden\" name=\"numeroPregunta\" value=\""+ id + "\" >");
 
         //Opciones Pregunta        
         var divOpciones = $("<div class=\"row center-xs\">");
@@ -36,11 +37,11 @@ $(document).ready(function () {
         var divUno=$("<div class=\"row start-xs\">");
         var divAltUno = $("<div class=\"col-xs-12 col-md-6 col-md-offset-2 \">");
         var divGrupoAltUno = $("<div class=\"form-group\">");
-        var altUno = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id + "" + 1 + "\" required=\"true\" placeholder=\"ej: conforme 1\">");
+        var altUno = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id +"\" required=\"true\" placeholder=\"ej: conforme 1\">");
         var divDos=$("<div class=\"row start-xs\">");
         var divAltDos = $("<div class=\"col-xs-12 col-md-6 col-md-offset-2 \">");
         var divGrupoAltDos = $("<div class=\"form-group\">");
-        var altDos = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id + "" + 2 + "\" required=\"true\" placeholder=\"ej: conforme 2\">");
+        var altDos = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id +"\" required=\"true\" placeholder=\"ej: conforme 2\">");
 
         botonAgregarAlternativa.click(function () {
             //alternativas
@@ -51,7 +52,7 @@ $(document).ready(function () {
             //alternativa            
             var divAlt = $("<div class=\"col-xs-12 col-md-6 col-md-offset-2\">");
             var divGrupoAlt = $("<div class=\"form-group\">");
-            var alt = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id + "" +  cantidad + "\" required=\"true\" placeholder=\"ej: conforme " +subId+"\">");
+            var alt = $("<input type=\"text\" class=\"form-control\" name=\"alt" + id + "\" required=\"true\" placeholder=\"ej: conforme " +subId+"\">");
             cantidad++;
             //eliminar alternativa
             var divElimanarAlt = $("<div class=\"col-xs-12 col-md-3\">");
@@ -90,6 +91,7 @@ $(document).ready(function () {
         divOpciones.append(divMultiple);
 
         //generar pregunta
+        divGrupoPregunta.append(preguntaHidden);
         divGrupoPregunta.append(pregunta);
         divPregunta.append(divGrupoPregunta);
         rowPregunta.append(divPregunta);

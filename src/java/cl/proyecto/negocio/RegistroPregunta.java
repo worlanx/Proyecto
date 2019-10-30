@@ -75,6 +75,18 @@ public class RegistroPregunta {
         return pregunta;
     }
     
+    public int obtenerPreguntaId() throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT MAX(id) as id FROM pregunta;");
+        ResultSet rs = sm.executeQuery();
+        int id = -1;
+        while (rs.next()) {            
+            id = rs.getInt("id");
+        }
+        sm.close();
+        return id;
+    }
+    
     public ArrayList<Pregunta> listarPreguntasPorEncuesta(int encuesta_id) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id, titulo, tipo_id from pregunta where encuesta_id = ?");

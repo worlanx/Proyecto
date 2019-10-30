@@ -8,6 +8,10 @@
         <servlet-name>CrearUsuarioServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.CrearUsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CrearEncuestaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CrearEncuestaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>CrearUsuarioServlet</servlet-name>
         <url-pattern>/CrearUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrearEncuestaServlet</servlet-name>
+        <url-pattern>/CrearEncuestaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
