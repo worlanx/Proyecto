@@ -34,6 +34,22 @@ public class RegistroComuna {
         return comuna;
     }
     
+    public int[] obtenerIdsPorComuna(int id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select com,prov,reg from detalle_comuna where com = ?");
+        sm.setInt(1, id);
+        ResultSet rs = sm.executeQuery();
+        int[] ids = new int[3];
+        while(rs.next())
+        {  
+            ids[0] = id;
+            ids[1] = rs.getInt("prov");      
+            ids[2] = rs.getInt("reg");            
+        }
+        sm.close();
+        return ids;
+    }
+    
     public ArrayList<Comuna> listarComuna() throws SQLException{
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,provincia_id from comuna");
         ResultSet rs = sm.executeQuery();

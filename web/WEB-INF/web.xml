@@ -12,6 +12,14 @@
         <servlet-name>CrearEncuestaServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.CrearEncuestaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModificarCuentaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ModificarCuentaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActualizarCuentaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ActualizarCuentaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>CrearEncuestaServlet</servlet-name>
         <url-pattern>/CrearEncuestaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModificarCuentaServlet</servlet-name>
+        <url-pattern>/ModificarCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActualizarCuentaServlet</servlet-name>
+        <url-pattern>/ActualizarCuentaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

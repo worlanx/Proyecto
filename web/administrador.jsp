@@ -14,6 +14,11 @@
                 window.location = "login.jsp";
             </script>
         </c:if>
+        <style>
+            #eliminar {
+                cursor:pointer;
+            }
+        </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/flexboxgrid.min.css">
@@ -87,18 +92,19 @@
                                         ${persona.cuenta.rol.descripcion}
                                     </td>
                                     <td>
-                                        <input type="image" src="img/align-center-2x.png" border="0" alt="Submit" /> Editar
+                                        <input type="image" src="img/align-center-2x-editar.png" border="0" alt="Submit" /> 
                                     </td>
-                                    <td>
-                                        <form method="POST" id="myForm" action="EliminarCuentaServlet">
-                                            <input type="hidden" name="persona_id" value="${persona.id}">
-                                            <input type="hidden" name="persona_run" value="${persona.run}">
-                                            <input type="hidden" name="persona_dv" value="${persona.dv}">
-                                            <img src="img/circle-x-2x.png" border="0" onclick="myFunction()" /> Eliminar
-                                        </form>
-                                    </td>
-                                    </tr>
                                 </form>
+                                <td>
+                                    <form method="POST" id="myForm" action="EliminarCuentaServlet">
+                                        <input type="hidden" name="persona_id" value="${persona.id}">
+                                        <input type="hidden" name="persona_run" value="${persona.run}">
+                                        <input type="hidden" name="persona_dv" value="${persona.dv}">
+                                        <img src="img/circle-x-2x-eliminar.png" border="0" onclick="myFunction()" id="eliminar" />
+                                    </form>
+                                </td>
+                                </tr>
+
                             </c:forEach>
                             </tbody>
                         </c:when>

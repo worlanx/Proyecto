@@ -5,6 +5,7 @@
  */
 package cl.proyecto.modelo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -136,4 +137,9 @@ public class Persona {
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }    
+    
+    public String obtenerFecha()
+    {
+        return new SimpleDateFormat("yyyy-MM-dd").format(getFechaNacimiento());
+    }
 }

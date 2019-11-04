@@ -42,7 +42,7 @@ public class RegistroCuentaUsuario {
     
     public int modificar(CuentaUsuario cuentaUsuario) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("update cuenta_usuario set usuario = ?, contraseña = ?, rol_id = ?, persona_id = ? where id =?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update cuenta_usuario set usuario = ?, contraseña = md5(?), rol_id = ?, persona_id = ? where id =?");
         sm.setString(1, cuentaUsuario.getUsuario());
         sm.setString(2, cuentaUsuario.getContrasenia());
         sm.setInt(3, cuentaUsuario.getRol().getId());
