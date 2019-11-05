@@ -20,6 +20,14 @@
         <servlet-name>ActualizarCuentaServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.ActualizarCuentaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DesactivarCuentaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.DesactivarCuentaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActivarCuentaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ActivarCuentaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>ActualizarCuentaServlet</servlet-name>
         <url-pattern>/ActualizarCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DesactivarCuentaServlet</servlet-name>
+        <url-pattern>/DesactivarCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActivarCuentaServlet</servlet-name>
+        <url-pattern>/ActivarCuentaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

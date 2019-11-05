@@ -91,45 +91,53 @@ public class LoginServlet extends HttpServlet {
             RegistroPersona regPersona = new RegistroPersona();
             Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
             if (persona != null) {
-                
-                RegistroRol registroRol = new RegistroRol();
-                request.getSession().setAttribute("roles", registroRol.listarRoles());
-                
-                RegistroGenero registroGenero = new RegistroGenero();
-                request.getSession().setAttribute("generos", registroGenero.listarGenero());
-                
-                RegistroRegion registroRegion = new RegistroRegion();
-                request.getSession().setAttribute("regiones", registroRegion.listarRegiones());
-                
-                RegistroProvincia registroProvincia = new RegistroProvincia();
-                request.getSession().setAttribute("provincias", registroProvincia.listarProvincias());
-                
-                RegistroComuna registroComuna = new RegistroComuna();
-                request.getSession().setAttribute("comunas", registroComuna.listarComuna());
-                
-                request.getSession().setAttribute("persona", persona);
-                request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
-                switch (persona.getCuenta().getRol().getId()) {
-                    case 1:
-                        ArrayList<Persona> personas = regPersona.listarPersona();
-                        request.getSession().setAttribute("personas", personas);
-                        request.getSession().setAttribute("cantidad", personas.size());
-                        response.sendRedirect("administrador.jsp");
-                        ;
-                        break;
-                    case 2:
-                        System.out.println("Jefe Persona");
-                        ;
-                        break;
-                    case 3:
-                        response.sendRedirect("jefedeestudio.jsp");
-                        ;
-                        break;
-                    case 4:
-                        System.out.println("Encuestador");
-                        ;
-                        break;
+
+                if (persona.isActivo()) {
+
+                    RegistroRol registroRol = new RegistroRol();
+                    request.getSession().setAttribute("roles", registroRol.listarRoles());
+
+                    RegistroGenero registroGenero = new RegistroGenero();
+                    request.getSession().setAttribute("generos", registroGenero.listarGenero());
+
+                    RegistroRegion registroRegion = new RegistroRegion();
+                    request.getSession().setAttribute("regiones", registroRegion.listarRegiones());
+
+                    RegistroProvincia registroProvincia = new RegistroProvincia();
+                    request.getSession().setAttribute("provincias", registroProvincia.listarProvincias());
+
+                    RegistroComuna registroComuna = new RegistroComuna();
+                    request.getSession().setAttribute("comunas", registroComuna.listarComuna());
+
+                    request.getSession().setAttribute("persona", persona);
+                    request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
+                    switch (persona.getCuenta().getRol().getId()) {
+                        case 1:
+                            ArrayList<Persona> personas = regPersona.listarPersona();
+                            request.getSession().setAttribute("personas", personas);
+                            request.getSession().setAttribute("cantidad", personas.size());
+                            response.sendRedirect("administrador.jsp");
+                            ;
+                            break;
+                        case 2:
+                            System.out.println("Jefe Persona");
+                            ;
+                            break;
+                        case 3:
+                            response.sendRedirect("jefedeestudio.jsp");
+                            ;
+                            break;
+                        case 4:
+                            System.out.println("Encuestador");
+                            ;
+                            break;
+                    }
+
+                } else {
+                    request.getSession().setAttribute("loginError", "Cuenta inactiva");
+                    response.sendRedirect("login.jsp");
                 }
+
             } else {
                 request.getSession().setAttribute("loginError", "Usuario o contraseña son incorrecto");
                 response.sendRedirect("login.jsp");

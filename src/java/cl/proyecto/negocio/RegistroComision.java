@@ -30,7 +30,7 @@ public class RegistroComision {
         return res;
     }
     
-    public int eliminar(int id) throws SQLException
+    public int desactivar(int id) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update comision set activo = 0 where id = ?");
         sm.setInt(1, id);       
@@ -39,6 +39,14 @@ public class RegistroComision {
         return res;
     }
     
+    public int activar(int id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update comision set activo = 1 where id = ?");
+        sm.setInt(1, id);       
+        int res = sm.executeUpdate();
+        sm.close();
+        return res;
+    }
     public int modificar(Comision comision) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update comision set cantidad = ?, total = ?, detalle_id = ? where id = ?");

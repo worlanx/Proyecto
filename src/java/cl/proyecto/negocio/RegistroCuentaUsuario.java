@@ -31,7 +31,7 @@ public class RegistroCuentaUsuario {
         return res;        
     }
     
-    public int eliminar(int id) throws SQLException
+    public int desactivar(int id) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update cuenta_usuario set activo = 0 where id = ?");
         sm.setInt(1, id);
@@ -39,6 +39,16 @@ public class RegistroCuentaUsuario {
         sm.close();
         return res;   
     }
+    
+    public int activar(int id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update cuenta_usuario set activo = 1 where id = ?");
+        sm.setInt(1, id);
+        int res = sm.executeUpdate();
+        sm.close();
+        return res;   
+    }
+    
     
     public int modificar(CuentaUsuario cuentaUsuario) throws SQLException
     {

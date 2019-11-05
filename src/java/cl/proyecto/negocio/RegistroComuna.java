@@ -36,7 +36,7 @@ public class RegistroComuna {
     
     public int[] obtenerIdsPorComuna(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select com,prov,reg from detalle_comuna where com = ? and activo = 1");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select com,prov,reg from detalle_comuna where com = ?");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         int[] ids = new int[3];

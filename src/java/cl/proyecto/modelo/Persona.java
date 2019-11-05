@@ -26,6 +26,7 @@ public class Persona {
     private CuentaUsuario cuenta;
     private Genero genero;
     private Direccion direccion;
+    private boolean activo;
 
     public Persona(int id, int run, char dv, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String email, ArrayList<Telefono> telefono, CuentaUsuario cuenta, Genero genero, Direccion direccion) {
         this.id = id;
@@ -137,6 +138,14 @@ public class Persona {
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }    
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
     
     public String obtenerFecha()
     {

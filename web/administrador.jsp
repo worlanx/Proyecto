@@ -15,7 +15,7 @@
             </script>
         </c:if>
         <style>
-            #eliminar {
+            #seleccionar {
                 cursor:pointer;
             }
         </style>
@@ -96,15 +96,26 @@
                                     </td>
                                 </form>
                                 <td>
-                                    <form method="POST" id="myForm" action="EliminarCuentaServlet">
-                                        <input type="hidden" name="persona_id" value="${persona.id}">
-                                        <input type="hidden" name="persona_run" value="${persona.run}">
-                                        <input type="hidden" name="persona_dv" value="${persona.dv}">
-                                        <img src="img/circle-x-2x-eliminar.png" border="0" onclick="myFunction()" id="eliminar" />
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${persona.activo == true}">
+                                            <form method="POST" id="formDesactivar" action="DesactivarCuentaServlet">
+                                                <input type="hidden" name="persona_id" value="${persona.id}">
+                                                <input type="hidden" name="persona_run" value="${persona.run}">
+                                                <input type="hidden" name="persona_dv" value="${persona.dv}">
+                                                <img src="img/x-2x-desactivar.png" border="0" onclick="desactivar()" id="seleccionar" />
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form method="POST" id="formActivar" action="ActivarCuentaServlet">
+                                                <input type="hidden" name="persona_id" value="${persona.id}">
+                                                <input type="hidden" name="persona_run" value="${persona.run}">
+                                                <input type="hidden" name="persona_dv" value="${persona.dv}">
+                                                <img src="img/check-2x-activar.png" border="0" onclick="activar()" id="seleccionar" />
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                                 </tr>
-
                             </c:forEach>
                             </tbody>
                         </c:when>
@@ -125,9 +136,18 @@
         </div>
     </body>
     <script>
-        function myFunction() {
-            if (confirm("¿Seguro que desea eliminar?")) {
-                document.getElementById("myForm").submit();
+        function desactivar() {
+            if (confirm("¿Seguro que desea desactivar la cuenta?")) {
+                document.getElementById("formDesactivar").submit();
+                console.log("true");
+            } else
+            {
+                console.log("false");
+            }
+        }
+        function activar() {
+            if (confirm("¿Seguro que desea reactivar la cuenta?")) {
+                document.getElementById("formActivar").submit();
                 console.log("true");
             } else
             {
