@@ -92,7 +92,8 @@ public class CrearUsuarioServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            String[] run = request.getParameter("run").split("-");            
+            request.setCharacterEncoding("UTF-8");
+            String[] run = request.getParameter("run").split("-");
             RegistroPersona regPersona = new RegistroPersona();
             Persona persona = regPersona.obtenerPersonaPorRun(Integer.parseInt(run[0]));
             if (persona == null) {
@@ -107,12 +108,12 @@ public class CrearUsuarioServlet extends HttpServlet {
                 int comuna_id = Integer.parseInt(request.getParameter("comuna"));
                 String direccion = request.getParameter("direccion");
                 String detalle = request.getParameter("departamento");
-                int celular = Integer.parseInt(request.getParameter("celular"));
+                String celular = request.getParameter("celular");
                 String fijo = request.getParameter("fijo");
                 String email = request.getParameter("email");
                 int rol_id = Integer.parseInt(request.getParameter("rol"));
                 String pass = request.getParameter("pass");
-                
+
                 //Dirección
                 Direccion d = new Direccion(0, direccion, detalle, comuna_id);
                 RegistroDireccion registroDireccion = new RegistroDireccion();
@@ -121,55 +122,55 @@ public class CrearUsuarioServlet extends HttpServlet {
                 //genero
                 RegistroGenero registroGenero = new RegistroGenero();
                 Genero genero = registroGenero.obtenerGenero(genero_id);
-                
-                
+
                 //telefónos
                 ArrayList<Telefono> telefonos = new ArrayList<>();
-                
-                
+
                 //Rol
                 RegistroRol registroRol = new RegistroRol();
                 Rol rol = registroRol.obtenerRol(rol_id);
-                
+
                 //cuenta
                 RegistroCuentaUsuario registroCuentaUsuario = new RegistroCuentaUsuario();
                 CuentaUsuario cuenta = new CuentaUsuario(0, rut.concat(dv), pass, rol, 0);
-                
+
                 //persona
                 Persona p = new Persona(0, Integer.parseInt(rut), dv.charAt(0), nombre, apellidoPaterno, apellidoMaterno, fecha, email, telefonos, cuenta, genero, d);
                 regPersona.agregar(p);
                 int persona_id = regPersona.obtenerIdPorRun(Integer.parseInt(rut));
-                
+
                 //cel
                 RegistroTelefono registroTelefono = new RegistroTelefono();
                 Telefono cel = new Telefono(0, celular, "+56", 2, persona_id);
                 registroTelefono.agregar(cel);
                 //fijo
                 if (!fijo.isEmpty()) {
-                    Telefono f = new Telefono(0, Integer.parseInt(fijo), "+56", 1, persona_id);
+                    Telefono f = new Telefono(0, fijo, "+56", 1, persona_id);
                     registroTelefono.agregar(f);
                 }
-                
+
                 cuenta.setPersona(persona_id);
                 registroCuentaUsuario.agregar(cuenta);
+
+                //Conexion.getConnection().commit();          
                 
+                ArrayList<Persona> personas = regPersona.listarPersona();
+                request.getSession().setAttribute("personas", personas);
+                request.getSession().setAttribute("cantidad", personas.size());
+
                 request.getSession().setAttribute("cuentaExito", "Cuenta Registrada Exitosamente");
                 response.sendRedirect("crearcuentausuario.jsp");
-            }
-            else
-            {
+            } else {
                 request.getSession().setAttribute("cuentaError", "Run ya registrado");
                 response.sendRedirect("crearcuentausuario.jsp");
-            }            
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("cuentaError", "No se pudo registar la cuenta, verifique la información");
             response.sendRedirect("crearcuentausuario.jsp");
         } catch (ParseException ex) {
             Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

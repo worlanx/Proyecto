@@ -78,6 +78,7 @@ public class ActivarCuentaServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
+            request.setCharacterEncoding("UTF-8");
             int persona_id = Integer.parseInt(request.getParameter("persona_id"));
             RegistroPersona registroPersona = new RegistroPersona();
             registroPersona.activarPorId(persona_id);

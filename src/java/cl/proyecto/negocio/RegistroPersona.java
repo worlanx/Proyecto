@@ -334,4 +334,61 @@ public class RegistroPersona {
         }
         return personas;
     }
+    
+    
+    public ArrayList<Persona> listarEncuestadores() throws SQLException {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol, activo FROM detalle_usuarios where rol_id = 4");
+        ResultSet rs = sm.executeQuery();
+        ArrayList<Persona> personas = new ArrayList<>();
+        while (rs.next()) {
+
+            //persona
+            int id = rs.getInt("id");
+            int run = rs.getInt("run");
+            char dv = rs.getString("dv").charAt(0);
+            String nombre = rs.getString("nombre");
+            String apellidoPaterno = rs.getString("apellido_paterno");
+            String apellidoMaterno = rs.getString("apellido_materno");
+            Date fechaNacimiento = rs.getDate("fecha_nacimiento");
+            String email = rs.getString("email");
+            //genero
+            int generoId = rs.getInt("genero_id");
+            String descripcionGenero = rs.getString("genero");
+            Genero genero = new Genero(generoId, descripcionGenero);
+            //region
+            int regionId = rs.getInt("region_id");
+            String descripcionRegion = rs.getString("region");
+            Region region = new Region(regionId, descripcionRegion, "", "");
+            //provincia
+            int provinciaId = rs.getInt("provincia_id");
+            String descripcionProvincia = rs.getString("provincia");
+            Provincia provincia = new Provincia(provinciaId, descripcionProvincia, regionId);
+            //comuna
+            int comunaId = rs.getInt("comuna_id");
+            String descripcionComuna = rs.getString("comuna");
+            Comuna comuna = new Comuna(comunaId, descripcionComuna, provinciaId);
+            //direccion
+            int direccionId = rs.getInt("direccion_id");
+            String descripcionDireccion = rs.getString("direccion");
+            String detalle = rs.getString("departamento");
+            Direccion direccion = new Direccion(direccionId, descripcionDireccion, detalle, comunaId);
+            //rol
+            int rolId = rs.getInt("rol_id");
+            String descripcionRol = rs.getString("rol");
+            Rol rol = new Rol(rolId, descripcionRol);
+            //usuario
+            int cuentaId = rs.getInt("cuenta_id");
+            String usuario = rs.getString("usuario");
+            String contrasenia = rs.getString("contraseña");
+            CuentaUsuario cuenta = new CuentaUsuario(cuentaId, usuario, contrasenia, rol, id);
+            //Telefono
+            RegistroTelefono regTelefono = new RegistroTelefono();
+            ArrayList<Telefono> telefono = regTelefono.listarTelefonoPorId(id);
+            Persona persona = new Persona(id, run, dv, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, email, telefono, cuenta, genero, direccion);
+            boolean activo = rs.getBoolean("activo");
+            persona.setActivo(activo);
+            personas.add(persona);
+        }
+        return personas;
+    }
 }

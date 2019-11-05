@@ -11,12 +11,12 @@ package cl.proyecto.modelo;
  */
 public class Telefono {
     private int id;
-    private int numero;
+    private String numero;
     private String prefijo;
     private int tipo;
     private int persona_id;
 
-    public Telefono(int id, int numero, String prefijo, int tipo, int persona_id) {
+    public Telefono(int id, String numero, String prefijo, int tipo, int persona_id) {
         this.id = id;
         this.numero = numero;
         this.prefijo = prefijo;
@@ -32,11 +32,11 @@ public class Telefono {
         this.id = id;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 

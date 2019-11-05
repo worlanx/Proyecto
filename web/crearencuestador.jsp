@@ -85,7 +85,7 @@
             <!-- /.Navbar -->
             <div class="container">
                 <div class="row end-xs">
-                    <a href="administrador.jsp"><button class="btn btn-success">volver</button></a>
+                    <a href="jefepersonal.jsp"><button class="btn btn-success">volver</button></a>
                 </div>
             </div>            
         </header>
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <form action="CrearUsuarioServlet" method="POST">
+            <form action="CrearEncustadorServlet" method="POST">
                 <div class="row center-xs">
                     <div class="col-xs-12 col-md-4">
                         <div class="form-group">
@@ -215,17 +215,7 @@
                             <label for="email">Email(*)</label>
                             <input type="email" class="form-control" id="email" name="email" required="true" placeholder="jrojasf@cuenta.cl">
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="form-group ">
-                            <label for="rol">Tipo Usuario(*)</label>
-                            <select class="form-control" id="rol" name="rol">
-                                <c:forEach items="${sessionScope.roles}" var="roles">
-                                    <option value="${roles.id}">${roles.descripcion}</option>
-                                </c:forEach>
-                            </select>                           
-                        </div>
-                    </div>                    
+                    </div>                                
                 </div>
                 <div class="row center-xs">
                     <div class="col-xs-12 col-md-4">

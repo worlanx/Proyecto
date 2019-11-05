@@ -21,7 +21,7 @@ public class RegistroTelefono {
     public int agregar(Telefono telefono) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("insert into detalle_telefono(numero,telefono_id,persona_id) values(?,?,?)");
-        sm.setInt(1, telefono.getNumero());
+        sm.setString(1, telefono.getNumero());
         sm.setInt(2, telefono.getTipo());
         sm.setInt(3, telefono.getPersona_id());
         int res = sm.executeUpdate();
@@ -50,7 +50,7 @@ public class RegistroTelefono {
     public int modificar(Telefono telefono) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_telefono set numero = ?, telefono_id = ?, persona_id = ? where id = ? ");
-        sm.setInt(1, telefono.getNumero());
+        sm.setString(1, telefono.getNumero());
         sm.setInt(2, telefono.getTipo());
         sm.setInt(3, telefono.getPersona_id());
         sm.setInt(4, telefono.getId());
@@ -67,7 +67,7 @@ public class RegistroTelefono {
         Telefono telefono = null;
         while(rs.next())
         {
-            int numero = rs.getInt("numero");
+            String numero = rs.getString("numero");
             String prefijo = rs.getString("prefijo");
             int telefonoId = rs.getInt("telefono_id");
             int personaId = rs.getInt("persona_id");
@@ -86,7 +86,7 @@ public class RegistroTelefono {
         while(rs.next())
         {
             int id = rs.getInt("id");
-            int numero = rs.getInt("numero");
+            String numero = rs.getString("numero");
             String prefijo = rs.getString("prefijo");
             int telefonoId = rs.getInt("telefono_id");            
             Telefono telefono = new  Telefono(id, numero, prefijo, telefonoId, persona_id);
@@ -105,7 +105,7 @@ public class RegistroTelefono {
         while(rs.next())
         {
             int id = rs.getInt("id");
-            int numero = rs.getInt("numero");
+            String numero = rs.getString("numero");
             String prefijo = rs.getString("prefijo");
             int telefonoId = rs.getInt("telefono_id");
             int personaId = rs.getInt("persona_id");

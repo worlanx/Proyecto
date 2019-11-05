@@ -28,6 +28,26 @@
         <servlet-name>ActivarCuentaServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.ActivarCuentaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModificarEncuestadorServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ModificarEncuestadorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CrearEncuestadorServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CrearEncuestadorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActualizarEncuestadorServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ActualizarEncuestadorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DesactivarEncuestadorServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.DesactivarEncuestadorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActivarEncuestadorServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ActivarEncuestadorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -55,6 +75,26 @@
     <servlet-mapping>
         <servlet-name>ActivarCuentaServlet</servlet-name>
         <url-pattern>/ActivarCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModificarEncuestadorServlet</servlet-name>
+        <url-pattern>/ModificarEncuestadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrearEncuestadorServlet</servlet-name>
+        <url-pattern>/CrearEncuestadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActualizarEncuestadorServlet</servlet-name>
+        <url-pattern>/ActualizarEncuestadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DesactivarEncuestadorServlet</servlet-name>
+        <url-pattern>/DesactivarEncuestadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActivarEncuestadorServlet</servlet-name>
+        <url-pattern>/ActivarEncuestadorServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

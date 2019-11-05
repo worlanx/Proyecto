@@ -79,6 +79,7 @@ public class DesactivarCuentaServlet extends HttpServlet {
         //processRequest(request, response);
         try {
             //processRequest(request, response);
+            request.setCharacterEncoding("UTF-8");
             int persona_id = Integer.parseInt(request.getParameter("persona_id"));
             RegistroPersona registroPersona = new RegistroPersona();
             registroPersona.desactivarPorId(persona_id);

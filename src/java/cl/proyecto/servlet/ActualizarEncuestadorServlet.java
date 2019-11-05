@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class ActualizarCuentaServlet extends HttpServlet {
+public class ActualizarEncuestadorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,10 +55,10 @@ public class ActualizarCuentaServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ActualizarCuentaServlet</title>");
+            out.println("<title>Servlet ActualizarEncuestadorServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ActualizarCuentaServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ActualizarEncuestadorServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -111,7 +111,7 @@ public class ActualizarCuentaServlet extends HttpServlet {
                 String celular = request.getParameter("celular");
                 String fijo = request.getParameter("fijo");
                 String email = request.getParameter("email");
-                int rol_id = Integer.parseInt(request.getParameter("rol"));
+                int rol_id = 4;
                 String pass = request.getParameter("pass");
                 String editarPass = request.getParameter("editarPass");
                 
@@ -155,16 +155,16 @@ public class ActualizarCuentaServlet extends HttpServlet {
                 registroCuentaUsuario.modificar(cuenta);
                 regPersona.modificarPorId(p);
                 request.getSession().setAttribute("cuentaExito", "Cuenta modificada Exitosamente");
-                response.sendRedirect("modificarcuentausuario.jsp");
+                response.sendRedirect("modificarencuestador.jsp");
 
             } else {
                 request.getSession().setAttribute("cuentaError", "Run no registrado, no se puede actualizar");
-                response.sendRedirect("modificarcuentausuario.jsp");
+                response.sendRedirect("modificarencuestador.jsp");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActualizarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("cuentaError", "No se pudo registar la cuenta, verifique la información");
-            response.sendRedirect("modificarcuentausuario.jsp");
+            response.sendRedirect("modificarencuestador.jsp");
         } catch (ParseException ex) {
             Logger.getLogger(ActualizarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

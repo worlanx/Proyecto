@@ -6,11 +6,11 @@
 package cl.proyecto.servlet;
 
 import cl.proyecto.modelo.Persona;
-import cl.proyecto.negocio.RegistroComuna;
 import cl.proyecto.negocio.RegistroPersona;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class ModificarCuentaServlet extends HttpServlet {
+public class ActivarEncuestadorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class ModificarCuentaServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModificarCuentaServlet</title>");            
+            out.println("<title>Servlet ActivarEncuestadorServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ModificarCuentaServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ActivarEncuestadorServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -81,15 +81,13 @@ public class ModificarCuentaServlet extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             int persona_id = Integer.parseInt(request.getParameter("persona_id"));
             RegistroPersona registroPersona = new RegistroPersona();
-            Persona perona = registroPersona.obtenerPersonaPorId(persona_id);
-            request.getSession().setAttribute("modificarPersona", perona);
-            RegistroComuna registroComuna = new RegistroComuna();
-            int[] ids = registroComuna.obtenerIdsPorComuna(perona.getDireccion().getComuna());
-            request.getSession().setAttribute("provId", ids[1]);
-            request.getSession().setAttribute("regId", ids[2]);
-            response.sendRedirect("modificarcuentausuario.jsp");
+            registroPersona.activarPorId(persona_id);
+            ArrayList<Persona> personas = registroPersona.listarEncuestadores();
+            request.getSession().setAttribute("encuestadores", personas);
+            request.getSession().setAttribute("cantidad", personas.size());
+            response.sendRedirect("jefepersonal.jsp");
         } catch (SQLException ex) {
-            Logger.getLogger(ModificarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActivarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

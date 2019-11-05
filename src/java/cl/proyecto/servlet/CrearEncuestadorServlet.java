@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class ActualizarCuentaServlet extends HttpServlet {
+public class CrearEncuestadorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,10 +55,10 @@ public class ActualizarCuentaServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ActualizarCuentaServlet</title>");
+            out.println("<title>Servlet CrearEncuestadorServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ActualizarCuentaServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CrearEncuestadorServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -96,7 +96,7 @@ public class ActualizarCuentaServlet extends HttpServlet {
             String[] run = request.getParameter("run").split("-");
             RegistroPersona regPersona = new RegistroPersona();
             Persona persona = regPersona.obtenerPersonaPorRun(Integer.parseInt(run[0]));
-            if (persona != null) {
+            if (persona == null) {
                 String rut = run[0];
                 String dv = run[1];
                 String nombre = request.getParameter("nombre");
@@ -111,30 +111,20 @@ public class ActualizarCuentaServlet extends HttpServlet {
                 String celular = request.getParameter("celular");
                 String fijo = request.getParameter("fijo");
                 String email = request.getParameter("email");
-                int rol_id = Integer.parseInt(request.getParameter("rol"));
+                int rol_id = 4;
                 String pass = request.getParameter("pass");
-                String editarPass = request.getParameter("editarPass");
-                
-                //Dirección
-                Direccion d = new Direccion(persona.getDireccion().getId(), direccion, detalle, comuna_id);
-                RegistroDireccion registroDireccion = new RegistroDireccion();
-                registroDireccion.modificar(d);
 
+                //Dirección
+                Direccion d = new Direccion(0, direccion, detalle, comuna_id);
+                RegistroDireccion registroDireccion = new RegistroDireccion();
+                registroDireccion.agregar(d);
+                d.setId(registroDireccion.obtenerDireccionporDetalle(direccion, detalle, comuna_id).getId());
                 //genero
                 RegistroGenero registroGenero = new RegistroGenero();
                 Genero genero = registroGenero.obtenerGenero(genero_id);
 
                 //telefónos
                 ArrayList<Telefono> telefonos = new ArrayList<>();
-                //cel
-                RegistroTelefono registroTelefono = new RegistroTelefono();
-                Telefono cel = new Telefono(persona.getTelefono().get(0).getId(), celular, "+56", 2, persona.getId());
-                registroTelefono.modificar(cel);
-                //fijo
-                if (!fijo.isEmpty()) {
-                    Telefono f = new Telefono(persona.getTelefono().get(1).getId(), fijo, "+56", 1, persona.getId());
-                    registroTelefono.modificar(f);
-                }
 
                 //Rol
                 RegistroRol registroRol = new RegistroRol();
@@ -142,31 +132,46 @@ public class ActualizarCuentaServlet extends HttpServlet {
 
                 //cuenta
                 RegistroCuentaUsuario registroCuentaUsuario = new RegistroCuentaUsuario();
-                CuentaUsuario cuenta = new CuentaUsuario(persona.getCuenta().getId(), rut.concat(dv), persona.getCuenta().getContrasenia(), rol, persona.getId());
-                
-                
-                Persona p = new Persona(persona.getId(), Integer.parseInt(rut), dv.charAt(0), nombre, apellidoPaterno, apellidoMaterno, fecha, email, telefonos, cuenta, genero, d);
-                
-                if(editarPass != null)
-                {
-                    p.getCuenta().setContrasenia(pass);
-                    cuenta.setContrasenia(pass);
-                }
-                registroCuentaUsuario.modificar(cuenta);
-                regPersona.modificarPorId(p);
-                request.getSession().setAttribute("cuentaExito", "Cuenta modificada Exitosamente");
-                response.sendRedirect("modificarcuentausuario.jsp");
+                CuentaUsuario cuenta = new CuentaUsuario(0, rut.concat(dv), pass, rol, 0);
 
+                //persona
+                Persona p = new Persona(0, Integer.parseInt(rut), dv.charAt(0), nombre, apellidoPaterno, apellidoMaterno, fecha, email, telefonos, cuenta, genero, d);
+                regPersona.agregar(p);
+                int persona_id = regPersona.obtenerIdPorRun(Integer.parseInt(rut));
+
+                //cel
+                RegistroTelefono registroTelefono = new RegistroTelefono();
+                Telefono cel = new Telefono(0, celular, "+56", 2, persona_id);
+                registroTelefono.agregar(cel);
+                //fijo
+                if (!fijo.isEmpty()) {
+                    Telefono f = new Telefono(0, fijo, "+56", 1, persona_id);
+                    registroTelefono.agregar(f);
+                }
+
+                cuenta.setPersona(persona_id);
+                registroCuentaUsuario.agregar(cuenta);
+
+                //Conexion.getConnection().commit();          
+                
+                ArrayList<Persona> personas = regPersona.listarPersona();
+                request.getSession().setAttribute("personas", personas);
+                request.getSession().setAttribute("cantidad", personas.size());
+
+                request.getSession().setAttribute("cuentaExito", "Encuestador Registrado Exitosamente");
+                response.sendRedirect("crearencuestador.jsp");
             } else {
-                request.getSession().setAttribute("cuentaError", "Run no registrado, no se puede actualizar");
-                response.sendRedirect("modificarcuentausuario.jsp");
+                request.getSession().setAttribute("cuentaError", "Run ya registrado");
+                response.sendRedirect("crearencuestador.jsp");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ActualizarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("cuentaError", "No se pudo registar la cuenta, verifique la información");
-            response.sendRedirect("modificarcuentausuario.jsp");
+            Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("cuentaError", "No se pudo registar el encuestador, verifique la información");
+            response.sendRedirect("crearencuestador.jsp");
         } catch (ParseException ex) {
-            Logger.getLogger(ActualizarCuentaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CrearUsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

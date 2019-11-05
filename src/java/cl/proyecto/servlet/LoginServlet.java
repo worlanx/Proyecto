@@ -86,6 +86,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+            request.setCharacterEncoding("UTF-8");
             String run = request.getParameter("run").replace("-", "");
             String pass = request.getParameter("pass");
             RegistroPersona regPersona = new RegistroPersona();
@@ -94,47 +95,51 @@ public class LoginServlet extends HttpServlet {
 
                 if (persona.isActivo()) {
 
-                    RegistroRol registroRol = new RegistroRol();
-                    request.getSession().setAttribute("roles", registroRol.listarRoles());
+                    if (persona.getCuenta().getRol().getId() != 4) {
+                        RegistroRol registroRol = new RegistroRol();
+                        request.getSession().setAttribute("roles", registroRol.listarRoles());
 
-                    RegistroGenero registroGenero = new RegistroGenero();
-                    request.getSession().setAttribute("generos", registroGenero.listarGenero());
+                        RegistroGenero registroGenero = new RegistroGenero();
+                        request.getSession().setAttribute("generos", registroGenero.listarGenero());
 
-                    RegistroRegion registroRegion = new RegistroRegion();
-                    request.getSession().setAttribute("regiones", registroRegion.listarRegiones());
+                        RegistroRegion registroRegion = new RegistroRegion();
+                        request.getSession().setAttribute("regiones", registroRegion.listarRegiones());
 
-                    RegistroProvincia registroProvincia = new RegistroProvincia();
-                    request.getSession().setAttribute("provincias", registroProvincia.listarProvincias());
+                        RegistroProvincia registroProvincia = new RegistroProvincia();
+                        request.getSession().setAttribute("provincias", registroProvincia.listarProvincias());
 
-                    RegistroComuna registroComuna = new RegistroComuna();
-                    request.getSession().setAttribute("comunas", registroComuna.listarComuna());
+                        RegistroComuna registroComuna = new RegistroComuna();
+                        request.getSession().setAttribute("comunas", registroComuna.listarComuna());
 
-                    request.getSession().setAttribute("persona", persona);
-                    request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
-                    switch (persona.getCuenta().getRol().getId()) {
-                        case 1:
-                            ArrayList<Persona> personas = regPersona.listarPersona();
-                            request.getSession().setAttribute("personas", personas);
-                            request.getSession().setAttribute("cantidad", personas.size());
-                            response.sendRedirect("administrador.jsp");
-                            ;
-                            break;
-                        case 2:
-                            System.out.println("Jefe Persona");
-                            ;
-                            break;
-                        case 3:
-                            response.sendRedirect("jefedeestudio.jsp");
-                            ;
-                            break;
-                        case 4:
-                            System.out.println("Encuestador");
-                            ;
-                            break;
+                        request.getSession().setAttribute("persona", persona);
+                        request.getSession().setAttribute("rol_id", persona.getCuenta().getRol());
+                        switch (persona.getCuenta().getRol().getId()) {
+                            case 1:
+                                ArrayList<Persona> personas = regPersona.listarPersona();
+                                request.getSession().setAttribute("personas", personas);
+                                request.getSession().setAttribute("cantidad", personas.size());
+                                response.sendRedirect("administrador.jsp");
+                                ;
+                                break;
+                            case 2:
+                                ArrayList<Persona> encuestadores = regPersona.listarEncuestadores();
+                                request.getSession().setAttribute("encuestadores", encuestadores);
+                                request.getSession().setAttribute("cantidad", encuestadores.size());
+                                response.sendRedirect("jefepersonal.jsp");
+                                ;
+                                break;
+                            case 3:
+                                response.sendRedirect("jefedeestudio.jsp");
+                                ;
+                                break;                           
+                        }
+                    } else {
+                        request.getSession().setAttribute("loginError", "Encuestador, debe ingresar por la app");
+                        response.sendRedirect("login.jsp");
                     }
 
                 } else {
-                    request.getSession().setAttribute("loginError", "Cuenta inactiva");
+                    request.getSession().setAttribute("loginError", "Cuenta inactiva, contacte al administrador");
                     response.sendRedirect("login.jsp");
                 }
 
