@@ -33,7 +33,7 @@ public class RegistroCuentaUsuario {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from cuenta_usuario where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update cuenta_usuario set activo = 0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -55,7 +55,7 @@ public class RegistroCuentaUsuario {
     
     public CuentaUsuario obtenerCuentaUsuario(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, usuario, contraseña, rol_id, persona_id from cuenta_usuario where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, usuario, contraseña, rol_id, persona_id from cuenta_usuario where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         CuentaUsuario cuentaUsuario = null;
@@ -77,7 +77,7 @@ public class RegistroCuentaUsuario {
     
     public ArrayList<CuentaUsuario> listarCuentaUsuario() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, usuario, contraseña, rol_id, persona_id from cuenta_usuario");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, usuario, contraseña, rol_id, persona_id from cuenta_usuario where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<CuentaUsuario> cuentaUsuarios = new ArrayList<>();
         while(rs.next())

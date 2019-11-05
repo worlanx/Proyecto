@@ -20,7 +20,7 @@ public class RegistroRol {
     
     public Rol obtenerRol(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from rol where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from rol where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Rol rol = null;
@@ -35,7 +35,7 @@ public class RegistroRol {
     
     public ArrayList<Rol> listarRoles() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from rol");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from rol where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Rol> roles = new ArrayList<>();
         while(rs.next())

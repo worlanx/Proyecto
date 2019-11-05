@@ -33,7 +33,7 @@ public class RegistroPregunta {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from pregunta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update pregunta set activo =  0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -53,7 +53,7 @@ public class RegistroPregunta {
     
     public Pregunta obtenerPreguntas(int id)throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, tipo_id, encuesta_id from pregunta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, tipo_id, encuesta_id from pregunta where id = ? and activo = 1");
         sm.setInt(1, id);
         Pregunta pregunta = null;
         ResultSet rs = sm.executeQuery();
@@ -77,7 +77,7 @@ public class RegistroPregunta {
     
     public int obtenerPreguntaId() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT MAX(id) as id FROM pregunta;");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT MAX(id) as id FROM pregunta where activo = 1");
         ResultSet rs = sm.executeQuery();
         int id = -1;
         while (rs.next()) {            
@@ -89,7 +89,7 @@ public class RegistroPregunta {
     
     public ArrayList<Pregunta> listarPreguntasPorEncuesta(int encuesta_id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, titulo, tipo_id from pregunta where encuesta_id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, titulo, tipo_id from pregunta where encuesta_id = ? and activo = 1");
         ArrayList<Pregunta> preguntas = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
         while (rs.next()) {

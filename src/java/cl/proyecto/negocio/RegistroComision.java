@@ -32,7 +32,7 @@ public class RegistroComision {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from comision where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update comision set activo = 0 where id = ?");
         sm.setInt(1, id);       
         int res = sm.executeUpdate();
         sm.close();
@@ -53,7 +53,7 @@ public class RegistroComision {
     
     public Comision obtenerComision(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select cantidad, total, detalle_id from comision where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select cantidad, total, detalle_id from comision where id = ? and activo = 1");
         sm.setInt(1, id);
         Comision comision = null;
         ResultSet rs = sm.executeQuery();
@@ -74,7 +74,7 @@ public class RegistroComision {
     
     public ArrayList<Comision> listarComisiones() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select cantidad, total, detalle_id from comision");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select cantidad, total, detalle_id from comision where activo = 1");
         ArrayList<Comision> comisiones = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
         while (rs.next()) {            

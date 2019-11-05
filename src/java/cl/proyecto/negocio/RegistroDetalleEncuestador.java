@@ -32,7 +32,7 @@ public class RegistroDetalleEncuestador {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from detalle_encuestador where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_encuestador set activo = 0 where id = ?");
         sm.setInt(1, id);        
         int res = sm.executeUpdate();
         sm.close();
@@ -52,7 +52,7 @@ public class RegistroDetalleEncuestador {
     
     public DetalleEncuestador obtenerDetalleEncuestador(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador where id = ? and activo = 1");
         sm.setInt(1, id);
         DetalleEncuestador detalleEncuestador = null;
         ResultSet rs = sm.executeQuery();
@@ -74,7 +74,7 @@ public class RegistroDetalleEncuestador {
     
     public ArrayList<DetalleEncuestador> listarEncuestas() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador where activo = 1");
         ArrayList<DetalleEncuestador> detalleEncuestadores = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
         while (rs.next()) {            
@@ -98,7 +98,7 @@ public class RegistroDetalleEncuestador {
     
     public ArrayList<DetalleEncuestador> listarEncuestasPorEncuestador(int persona_id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, encuesta_id from detalle_encuestador where persona_id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, encuesta_id from detalle_encuestador where persona_id = ? and activo = 1");
         sm.setInt(1, persona_id);
         ArrayList<DetalleEncuestador> detalleEncuestadores = new ArrayList<>();
         ResultSet rs = sm.executeQuery();

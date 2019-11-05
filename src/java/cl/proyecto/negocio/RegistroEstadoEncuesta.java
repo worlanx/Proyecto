@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RegistroEstadoEncuesta {
     public EstadoEncuesta obtenerEstadoEncuesta(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from estado_encuesta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from estado_encuesta where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         EstadoEncuesta estadoEncuesta = null;
@@ -34,7 +34,7 @@ public class RegistroEstadoEncuesta {
     
     public ArrayList<EstadoEncuesta> listarEstadoEncuesta() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_pregunta");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_pregunta where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<EstadoEncuesta> estadoEncuestas = new ArrayList<>();
         while(rs.next())

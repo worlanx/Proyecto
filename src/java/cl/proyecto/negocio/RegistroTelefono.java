@@ -31,7 +31,7 @@ public class RegistroTelefono {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from detalle_telefono where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_telefono set activo = 0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -52,7 +52,7 @@ public class RegistroTelefono {
  
     public Telefono obtenerTelefono(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Telefono telefono = null;
@@ -70,7 +70,7 @@ public class RegistroTelefono {
     
     public ArrayList<Telefono> listarTelefonoPorId(int persona_id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where persona_id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where persona_id = ? and activo = 1");
         sm.setInt(1, persona_id);
         ResultSet rs = sm.executeQuery();
         ArrayList<Telefono> telefonos = new ArrayList<>();
@@ -90,7 +90,7 @@ public class RegistroTelefono {
     
     public ArrayList<Telefono> listarTelefono() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,numero,prefijo,telefono_id,persona_id from detalle_telefono where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Telefono> telefonos = new ArrayList<>();
         while(rs.next())

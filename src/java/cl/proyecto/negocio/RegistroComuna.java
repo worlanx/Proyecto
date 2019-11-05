@@ -20,7 +20,7 @@ public class RegistroComuna {
     
     public Comuna obtenerComuna(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,provincia_id from comuna where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,provincia_id from comuna where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Comuna comuna = null;
@@ -36,7 +36,7 @@ public class RegistroComuna {
     
     public int[] obtenerIdsPorComuna(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select com,prov,reg from detalle_comuna where com = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select com,prov,reg from detalle_comuna where com = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         int[] ids = new int[3];
@@ -51,7 +51,7 @@ public class RegistroComuna {
     }
     
     public ArrayList<Comuna> listarComuna() throws SQLException{
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,provincia_id from comuna");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,provincia_id from comuna where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Comuna> comunas = new ArrayList<>();
         while(rs.next())

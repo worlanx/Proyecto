@@ -33,7 +33,7 @@ public class RegistroEncuesta {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from encuesta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update encuesta set activo = 0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -53,7 +53,7 @@ public class RegistroEncuesta {
     }
     
     public Encuesta obtenerEncuesta(int id) throws SQLException{
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Encuesta encuesta = null;
@@ -74,7 +74,7 @@ public class RegistroEncuesta {
     }  
     
     public int obtenerEncuestaId() throws SQLException{
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select max(id) as id from encuesta");       
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select max(id) as id from encuesta where activo = 1");       
         ResultSet rs = sm.executeQuery();
         int id = -1;
         while (rs.next()) {            
@@ -86,7 +86,7 @@ public class RegistroEncuesta {
         
     public ArrayList<Encuesta> listarEncuestas() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Encuesta> encuestas = new ArrayList<>();
         while (rs.next()) {            

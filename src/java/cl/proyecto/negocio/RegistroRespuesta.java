@@ -32,7 +32,7 @@ public class RegistroRespuesta {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from respuesta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update respuesta set activo = 0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -52,7 +52,7 @@ public class RegistroRespuesta {
     
     public Respuesta obtenerRespuesta(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select pregunta_id, alternativa_id from respuesta where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select pregunta_id, alternativa_id from respuesta where id = ? and activo = 1");
         sm.setInt(1, id);
         Respuesta respuesta = null;
         ResultSet rs = sm.executeQuery();
@@ -74,7 +74,7 @@ public class RegistroRespuesta {
     
     public ArrayList<Respuesta> listarRespuestasPorPregunta(int pregunta_id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, alternativa_id from respuesta where pregunta_id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, alternativa_id from respuesta where pregunta_id = ? and activo = 1");
         sm.setInt(1, pregunta_id);
         ArrayList<Respuesta> respuestas = new ArrayList<>();
         ResultSet rs = sm.executeQuery();

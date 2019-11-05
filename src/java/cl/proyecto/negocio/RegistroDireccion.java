@@ -31,7 +31,7 @@ public class RegistroDireccion {
     
     public int eliminar(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from detalle_direccion where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_direccion set activo = 0 where id = ?");
         sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
@@ -52,7 +52,7 @@ public class RegistroDireccion {
     
     public Direccion obtenerDireccion(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id ,descripcion, detalle, comuna_id from detalle_direccion where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id ,descripcion, detalle, comuna_id from detalle_direccion where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Direccion direccion = null;
@@ -69,7 +69,7 @@ public class RegistroDireccion {
     
     public Direccion obtenerDireccionporDetalle(String descripcion, String detalle, int comuna_id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id from detalle_direccion where descripcion = ? and detalle = ? and comuna_id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id from detalle_direccion where descripcion = ? and detalle = ? and comuna_id = ? and activo = 1");
         sm.setString(1, descripcion);
         sm.setString(2, detalle);
         sm.setInt(3, comuna_id);
@@ -86,7 +86,7 @@ public class RegistroDireccion {
     
     public ArrayList<Direccion> listarDirecciones() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion, detalle, comuna_id from detalle_direccion");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion, detalle, comuna_id from detalle_direccion where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Direccion> direcciones = new ArrayList<>();
         while(rs.next())

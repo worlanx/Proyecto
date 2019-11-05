@@ -46,7 +46,7 @@ public class RegistroPersona {
     
     public int eliminarPorRun(int run) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from persona where run = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update persona set activo =  0 where run = ?");
         sm.setInt(1, run);        
         int res = sm.executeUpdate();
         sm.close();
@@ -55,7 +55,7 @@ public class RegistroPersona {
     
     public int eliminarPorId(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("delete from persona where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update persona set activo = 0 where id = ?");
         sm.setInt(1, id);        
         int res = sm.executeUpdate();
         sm.close();
@@ -96,7 +96,7 @@ public class RegistroPersona {
     
     public int obtenerIdPorRun(int run) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id from persona where run = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id from persona where run = ? and activo = 1");
         sm.setInt(1, run);
         ResultSet rs = sm.executeQuery();
         int id = -1;
@@ -108,7 +108,7 @@ public class RegistroPersona {
     
     public Persona obtenerPersonaPorRun(int run) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento,comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where run  = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento,comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where run  = ? and activo = 1");
         sm.setInt(1, run);
         ResultSet rs = sm.executeQuery();
         Persona persona = null;
@@ -165,7 +165,7 @@ public class RegistroPersona {
     
     public Persona obtenerPersonaPorId(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where id  = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where id  = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Persona persona = null;
@@ -219,7 +219,7 @@ public class RegistroPersona {
     
     public Persona obtenerPersonaPorUsuario(String usuario, String contrasenia) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where usuario = ? and contraseña = md5(?)");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where usuario = ? and contraseña = md5(?) and activo = 1");
         sm.setString(1, usuario);
         sm.setString(2, contrasenia);
         ResultSet rs = sm.executeQuery();
@@ -273,7 +273,7 @@ public class RegistroPersona {
     
     public ArrayList<Persona> listarPersona() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT id, run, dv, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, genero_id, direccion_id, email, genero, direccion, departamento, comuna_id, comuna, provincia_id, provincia, region_id, region, cuenta_id ,usuario, contraseña, rol_id, rol FROM detalle_usuarios where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Persona> personas = new ArrayList<>();        
         while (rs.next()) {

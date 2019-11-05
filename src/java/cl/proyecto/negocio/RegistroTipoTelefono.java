@@ -20,7 +20,7 @@ public class RegistroTipoTelefono {
     
     public TipoTelefono obtenerTipoTelefono(int id) throws SQLException
     {        
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_telefono where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_telefono where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         TipoTelefono tipoTelefono = null;
@@ -35,7 +35,7 @@ public class RegistroTipoTelefono {
     
     public ArrayList<TipoTelefono> listarTipoTelefono() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_telefono");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from tipo_telefono where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<TipoTelefono> tipoTelefonos = new ArrayList<>();
         while(rs.next())

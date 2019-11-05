@@ -20,7 +20,7 @@ public class RegistroGenero {
     
     public Genero obtenerGenero(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Genero genero = null;
@@ -35,7 +35,7 @@ public class RegistroGenero {
     
     public ArrayList<Genero> listarGenero() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion from genero where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Genero> generos = new ArrayList<>();
         while(rs.next())

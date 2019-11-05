@@ -20,7 +20,7 @@ public class RegistroRegion {
     
     public Region obtenerRegion(int id) throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,abreviatura, capital from region where id = ?");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,abreviatura, capital from region where id = ? and activo = 1");
         sm.setInt(1, id);
         ResultSet rs = sm.executeQuery();
         Region region = null;
@@ -37,7 +37,7 @@ public class RegistroRegion {
     
     public ArrayList<Region> listarRegiones() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,abreviatura,capital from region");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id,descripcion,abreviatura,capital from region where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Region> regiones = new ArrayList<>();
         while(rs.next())
