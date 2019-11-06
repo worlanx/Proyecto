@@ -115,7 +115,5 @@ public class RegistroEncuesta {
         }
         sm.close();
         return  encuestas;
-    }
-    
-    
+    }    
 }

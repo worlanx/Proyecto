@@ -99,6 +99,7 @@ public class RegistroPregunta {
     public ArrayList<Pregunta> listarPreguntasPorEncuesta(int encuesta_id) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id, titulo, tipo_id from pregunta where encuesta_id = ? and activo = 1");
+        sm.setInt(1, encuesta_id);
         ArrayList<Pregunta> preguntas = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
         while (rs.next()) {

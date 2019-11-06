@@ -13,11 +13,26 @@ public class DetalleEncuestador {
     private int id;
     private Persona persona;
     private Encuesta encuesta;   
+    private int persona_id;
 
     public DetalleEncuestador(int id, Persona persona, Encuesta encuesta) {
         this.id = id;
         this.persona = persona;
         this.encuesta = encuesta;        
+    }
+
+    public DetalleEncuestador(int id, Encuesta encuesta, int persona_id) {
+        this.id = id;
+        this.encuesta = encuesta;
+        this.persona_id = persona_id;
+    }
+
+    public int getPersona_id() {
+        return persona_id;
+    }
+
+    public void setPersona_id(int persona_id) {
+        this.persona_id = persona_id;
     }
     
     public int getId() {

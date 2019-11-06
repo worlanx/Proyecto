@@ -48,6 +48,10 @@
         <servlet-name>ActivarEncuestadorServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.ActivarEncuestadorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TesterServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.TesterServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>ActivarEncuestadorServlet</servlet-name>
         <url-pattern>/ActivarEncuestadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TesterServlet</servlet-name>
+        <url-pattern>/TesterServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

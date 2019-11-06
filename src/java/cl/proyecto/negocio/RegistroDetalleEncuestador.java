@@ -83,22 +83,20 @@ public class RegistroDetalleEncuestador {
     
     public ArrayList<DetalleEncuestador> listarEncuestas() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador where activo = 1");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, persona_id, encuesta_id from detalle_encuestador where activo = 1");
         ArrayList<DetalleEncuestador> detalleEncuestadores = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
         while (rs.next()) {            
             
             int id = rs.getInt("id");
             
-            int persona_id = rs.getInt("persona_id");
-            RegistroPersona registroPersona = new RegistroPersona();
-            Persona persona = registroPersona.obtenerPersonaPorId(persona_id);
+            int persona_id = rs.getInt("persona_id");           
             
             int encuesta_id = rs.getInt("encuesta_id");
             RegistroEncuesta registroEncuesta = new RegistroEncuesta();
             Encuesta encuesta = registroEncuesta.obtenerEncuesta(encuesta_id);
             
-            DetalleEncuestador detalleEncuestador = new DetalleEncuestador(id, persona, encuesta);
+            DetalleEncuestador detalleEncuestador = new DetalleEncuestador(id, encuesta, persona_id);
             detalleEncuestadores.add(detalleEncuestador);
         }
         sm.close();
