@@ -6,6 +6,7 @@
 package cl.proyecto.servlet;
 
 import cl.proyecto.modelo.DetalleEncuestador;
+import cl.proyecto.modelo.DetalleEncuestadores;
 import cl.proyecto.modelo.Mensaje;
 import cl.proyecto.modelo.Persona;
 import cl.proyecto.negocio.RegistroDetalleEncuestador;
@@ -55,7 +56,8 @@ public class TesterServlet extends HttpServlet {
 
                         if (persona.getCuenta().getRol().getId() == 4) {
                             RegistroDetalleEncuestador registroDetalleEncuestador = new RegistroDetalleEncuestador();
-                            ArrayList<DetalleEncuestador> detalleEncuestadores = registroDetalleEncuestador.listarEncuestas();
+                            ArrayList<DetalleEncuestador> detalleEncuest = registroDetalleEncuestador.listarEncuestas();
+                            DetalleEncuestadores detalleEncuestadores = new DetalleEncuestadores(detalleEncuest);
                             String json = gson.toJson(detalleEncuestadores);
                             out.print(json);
                         } else {
