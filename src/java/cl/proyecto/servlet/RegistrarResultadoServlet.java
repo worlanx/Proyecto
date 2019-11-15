@@ -5,19 +5,16 @@
  */
 package cl.proyecto.servlet;
 
-import cl.proyecto.modelo.DetalleEncuestador;
-import cl.proyecto.modelo.DetalleEncuestadores;
+import cl.proyecto.modelo.DetalleEncuesta;
+import cl.proyecto.modelo.DetalleRespuestas;
+import cl.proyecto.modelo.GeneradarId;
 import cl.proyecto.modelo.Mensaje;
-import cl.proyecto.modelo.Persona;
-import cl.proyecto.negocio.RegistroDetalleEncuestador;
-import cl.proyecto.negocio.RegistroPersona;
+import cl.proyecto.modelo.Respuesta;
+import cl.proyecto.negocio.RegistroDetalleEncuesta;
+import cl.proyecto.negocio.RegistroRespuesta;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class TesterServlet extends HttpServlet {
+public class RegistrarResultadoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,46 +39,31 @@ public class TesterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//http://localhost:8080/Proyecto/TesterServlet?run=14725369-8&pass=123456789
-            try {
-                request.setCharacterEncoding("UTF-8");
-                String run = request.getParameter("run").replace("-", "");
-                String pass = request.getParameter("pass");
-                RegistroPersona regPersona = new RegistroPersona();
-                Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
-                Gson gson = new Gson();
-                if (persona != null) {
-                    if (persona.isActivo()) {
-
-                        if (persona.getCuenta().getRol().getId() == 4) {
-                            RegistroDetalleEncuestador registroDetalleEncuestador = new RegistroDetalleEncuestador();
-                            ArrayList<DetalleEncuestador> detalleEncuest = registroDetalleEncuestador.listarEncuestas();                            
-                            DetalleEncuestadores detalleEncuestadores = new DetalleEncuestadores(persona.getId(),detalleEncuest);
-                            String json = gson.toJson(detalleEncuestadores);
-                            out.print(json);
-                        } else {
-                            Mensaje m = new Mensaje(1, "App es solo para encuestadores");
-                            String json = gson.toJson(m);
-                            out.print(json);
-                        }
-                    } else {
-                        Mensaje m = new Mensaje(2, "Cuenta inactiva");
-                        String json = gson.toJson(m);
-                        out.print(json);
-                    }
-                } else {
-                    Mensaje m = new Mensaje(3, "Usuario o contraseña invalidos");
-                    String json = gson.toJson(m);
-                    out.print(json);
+            request.setCharacterEncoding("UTF-8");
+            String respuesta = request.getParameter("respuestas");
+            Gson gson = new Gson();
+            DetalleRespuestas detalleRespuestas = gson.fromJson(respuesta, DetalleRespuestas.class);
+            if (detalleRespuestas != null) {
+                for (Respuesta res : detalleRespuestas.getDetalleRespuesta()) {
+                    String id = GeneradarId.generar();
+                    res.setId((id));
+                    RegistroRespuesta registroRespuesta = new RegistroRespuesta();
+                    registroRespuesta.agregar(res);
+                    RegistroDetalleEncuesta registroDetalleEncuesta = new RegistroDetalleEncuesta();
+                    DetalleEncuesta detalleEncuesta = new DetalleEncuesta(0, detalleRespuestas.getUsuario_id(), detalleRespuestas.getEncuesta_id(), res);
+                    registroDetalleEncuesta.agregar(detalleEncuesta);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(TesterServlet.class.getName()).log(Level.SEVERE, null, ex);
-                Mensaje m = new Mensaje(4, "No se pudo conectar con el servidor");
-                Gson gson = new Gson();
+                 Mensaje m = new Mensaje(1, "Encuesta Registrada exitosamente.");
+                String json = gson.toJson(m);
+                out.print(json);
+
+            } else {
+                Mensaje m = new Mensaje(1, "No se pudo registrar, intente nuevamente.");
                 String json = gson.toJson(m);
                 out.print(json);
             }
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
         }
     }
 

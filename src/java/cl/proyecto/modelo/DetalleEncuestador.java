@@ -14,25 +14,19 @@ public class DetalleEncuestador {
     private Persona persona;
     private Encuesta encuesta;   
     private int persona_id;
+    private int total;
+
+    public DetalleEncuestador(int id, Encuesta encuesta, int persona_id, int total) {
+        this.id = id;        
+        this.encuesta = encuesta;
+        this.persona_id = persona_id;
+        this.total = total;
+    }
 
     public DetalleEncuestador(int id, Persona persona, Encuesta encuesta) {
         this.id = id;
         this.persona = persona;
-        this.encuesta = encuesta;        
-    }
-
-    public DetalleEncuestador(int id, Encuesta encuesta, int persona_id) {
-        this.id = id;
         this.encuesta = encuesta;
-        this.persona_id = persona_id;
-    }
-
-    public int getPersona_id() {
-        return persona_id;
-    }
-
-    public void setPersona_id(int persona_id) {
-        this.persona_id = persona_id;
     }
     
     public int getId() {
@@ -58,5 +52,23 @@ public class DetalleEncuestador {
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
     }
+
+    public int getPersona_id() {
+        return persona_id;
+    }
+
+    public void setPersona_id(int persona_id) {
+        this.persona_id = persona_id;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    
     
 }

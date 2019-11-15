@@ -11,16 +11,16 @@ package cl.proyecto.modelo;
  */
 public class DetalleEncuesta {
     private int id;
-    private Encuesta encuesta;
+    private int persona_id;
+    private int encuesta_id;
     private Respuesta respuesta;
-    
 
-    public DetalleEncuesta(int id, Encuesta encuesta, Respuesta respuesta) {
+    public DetalleEncuesta(int id, int persona_id, int encuesta_id, Respuesta respuesta) {
         this.id = id;
-        this.encuesta = encuesta;
-        this.respuesta = respuesta;        
+        this.persona_id = persona_id;
+        this.encuesta_id = encuesta_id;
+        this.respuesta = respuesta;
     }
-
 
     public int getId() {
         return id;
@@ -30,12 +30,20 @@ public class DetalleEncuesta {
         this.id = id;
     }
 
-    public Encuesta getEncuesta() {
-        return encuesta;
+    public int getPersona_id() {
+        return persona_id;
     }
 
-    public void setEncuesta(Encuesta encuesta) {
-        this.encuesta = encuesta;
+    public void setPersona_id(int persona_id) {
+        this.persona_id = persona_id;
+    }
+
+    public int getEncuesta_id() {
+        return encuesta_id;
+    }
+
+    public void setEncuesta_id(int encuesta_id) {
+        this.encuesta_id = encuesta_id;
     }
 
     public Respuesta getRespuesta() {
@@ -46,6 +54,5 @@ public class DetalleEncuesta {
         this.respuesta = respuesta;
     }
 
-   
     
 }

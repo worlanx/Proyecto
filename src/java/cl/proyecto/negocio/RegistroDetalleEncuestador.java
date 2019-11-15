@@ -19,9 +19,8 @@ import java.util.ArrayList;
  * @author Worlan
  */
 public class RegistroDetalleEncuestador {
-    
-    public int agregar(DetalleEncuestador detalleEncuestador) throws SQLException
-    {
+
+    public int agregar(DetalleEncuestador detalleEncuestador) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("insert into detalle_encuestador(persona_id,encuesta_id) values(?,?)");
         sm.setInt(1, detalleEncuestador.getPersona().getId());
         sm.setInt(2, detalleEncuestador.getEncuesta().getId());
@@ -29,27 +28,24 @@ public class RegistroDetalleEncuestador {
         sm.close();
         return res;
     }
-    
-    public int desactivar(int id) throws SQLException
-    {
+
+    public int desactivar(int id) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_encuestador set activo = 0 where id = ?");
-        sm.setInt(1, id);        
+        sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
         return res;
     }
-    
-    public int activar(int id) throws SQLException
-    {
+
+    public int activar(int id) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_encuestador set activo = 1 where id = ?");
-        sm.setInt(1, id);        
+        sm.setInt(1, id);
         int res = sm.executeUpdate();
         sm.close();
         return res;
     }
-    
-    public int modificar(DetalleEncuestador detalleEncuestador) throws SQLException
-    {
+
+    public int modificar(DetalleEncuestador detalleEncuestador) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update detalle_encuestador set persona_id = ?, encuesta_id = ? where id = ? ");
         sm.setInt(1, detalleEncuestador.getPersona().getId());
         sm.setInt(2, detalleEncuestador.getEncuesta().getId());
@@ -58,67 +54,101 @@ public class RegistroDetalleEncuestador {
         sm.close();
         return res;
     }
-    
-    public DetalleEncuestador obtenerDetalleEncuestador(int id) throws SQLException
-    {
+
+    public DetalleEncuestador obtenerDetalleEncuestador(int id) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select persona_id, encuesta_id from detalle_encuestador where id = ? and activo = 1");
         sm.setInt(1, id);
         DetalleEncuestador detalleEncuestador = null;
         ResultSet rs = sm.executeQuery();
-        while (rs.next()) {            
-            
+        while (rs.next()) {
+
             int persona_id = rs.getInt("persona_id");
             RegistroPersona registroPersona = new RegistroPersona();
             Persona persona = registroPersona.obtenerPersonaPorId(persona_id);
-            
+
             int encuesta_id = rs.getInt("encuesta_id");
             RegistroEncuesta registroEncuesta = new RegistroEncuesta();
             Encuesta encuesta = registroEncuesta.obtenerEncuesta(encuesta_id);
-            
+
             detalleEncuestador = new DetalleEncuestador(id, persona, encuesta);
         }
         sm.close();
         return detalleEncuestador;
     }
-    
-    public ArrayList<DetalleEncuestador> listarEncuestas() throws SQLException
-    {
+
+    public ArrayList<DetalleEncuestador> listarEncuestas() throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id, persona_id, encuesta_id from detalle_encuestador where activo = 1");
         ArrayList<DetalleEncuestador> detalleEncuestadores = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
-        while (rs.next()) {            
-            
+        while (rs.next()) {
+
             int id = rs.getInt("id");
-            
-            int persona_id = rs.getInt("persona_id");           
-            
+
+            int persona_id = rs.getInt("persona_id");
+
             int encuesta_id = rs.getInt("encuesta_id");
             RegistroEncuesta registroEncuesta = new RegistroEncuesta();
             Encuesta encuesta = registroEncuesta.obtenerEncuesta(encuesta_id);
             
-            DetalleEncuestador detalleEncuestador = new DetalleEncuestador(id, encuesta, persona_id);
+            int total = cantidadEncuestas(encuesta_id,persona_id);
+
+            DetalleEncuestador detalleEncuestador = new DetalleEncuestador(id, encuesta, persona_id,total);
             detalleEncuestadores.add(detalleEncuestador);
         }
         sm.close();
         return detalleEncuestadores;
     }
-    
-    public ArrayList<DetalleEncuestador> listarEncuestasPorEncuestador(int persona_id) throws SQLException
+
+    public int cantidadEncuestas(int encuesta_id, int persona_id) throws SQLException {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select count(*) as total from lista_respuesta where encuesta_id = ? and persona_id = ?");
+        sm.setInt(1, encuesta_id);
+        sm.setInt(2, persona_id);
+        int total = 0;
+        ResultSet rs = sm.executeQuery();
+        while (rs.next()) {
+            total = rs.getInt("total");
+        }
+        return total;
+    }
+
+    public int totalPagar(DetalleEncuestador detalleEncuestador) throws SQLException
     {
+        int cantidad = cantidadEncuestas(detalleEncuestador.getEncuesta().getId(), detalleEncuestador.getPersona_id());
+        int valor = detalleEncuestador.getEncuesta().getValor();
+        int total = 0;
+        if (cantidad < 101) {
+            total = cantidad * valor;
+        }
+        else if(cantidad  > 100 && cantidad < 201)
+        {
+            total = (int)(cantidad * (valor * 1.1f ));
+        }
+        else
+        {
+             total = (int)(cantidad * (valor * 1.2f ));
+        }
+        return total;
+    }
+    
+    
+    
+    public ArrayList<DetalleEncuestador> listarEncuestasPorEncuestador(int persona_id) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select id, encuesta_id from detalle_encuestador where persona_id = ? and activo = 1");
         sm.setInt(1, persona_id);
         ArrayList<DetalleEncuestador> detalleEncuestadores = new ArrayList<>();
         ResultSet rs = sm.executeQuery();
-        while (rs.next()) {            
-            
-            int id = rs.getInt("id");           
-            
+        while (rs.next()) {
+
+            int id = rs.getInt("id");
+
             RegistroPersona registroPersona = new RegistroPersona();
             Persona persona = registroPersona.obtenerPersonaPorId(persona_id);
-            
+
             int encuesta_id = rs.getInt("encuesta_id");
             RegistroEncuesta registroEncuesta = new RegistroEncuesta();
             Encuesta encuesta = registroEncuesta.obtenerEncuesta(encuesta_id);
+
+            
             
             DetalleEncuestador detalleEncuestador = new DetalleEncuestador(id, persona, encuesta);
             detalleEncuestadores.add(detalleEncuestador);

@@ -1,4 +1,4 @@
-/*
+  /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,37 +10,41 @@ package cl.proyecto.modelo;
  * @author Worlan
  */
 public class Respuesta {
-    private int id;
-    private Pregunta pregunta;
-    private Alternativa alternativa;    
+    private String id;
+    private int pregunta_id;
+    private int alternativa_id;    
 
-    public Respuesta(int id, Pregunta pregunta, Alternativa alternativa) {
+    public Respuesta(String id, int pregunta_id, int alternativa_id) {
         this.id = id;
-        this.pregunta = pregunta;
-        this.alternativa = alternativa;
+        this.pregunta_id = pregunta_id;
+        this.alternativa_id = alternativa_id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Pregunta getPregunta() {
-        return pregunta;
+    public int getPregunta_id() {
+        return pregunta_id;
     }
 
-    public void setPregunta(Pregunta pregunta) {
-        this.pregunta = pregunta;
+    public void setPregunta_id(int pregunta_id) {
+        this.pregunta_id = pregunta_id;
     }
 
-    public Alternativa getAlternativa() {
-        return alternativa;
+    public int getAlternativa_id() {
+        return alternativa_id;
     }
 
-    public void setAlternativa(Alternativa alternativa) {
-        this.alternativa = alternativa;
+    public void setAlternativa_id(int alternativa_id) {
+        this.alternativa_id = alternativa_id;
     }
+
+    
+
+    
 }
