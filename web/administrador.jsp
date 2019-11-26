@@ -76,7 +76,7 @@
                                         <th scope="row">
                                             ${persona.run}-${persona.dv}
                                         </th>
-                                    <input type="hidden" name="persona_id" value="${persona.id}">
+                                    <input type="hidden" name="persona_id" id="id_dato" value="${persona.id}">
                                     <input type="hidden" name="persona_run" value="${persona.run}">
                                     <input type="hidden" name="persona_dv" value="${persona.dv}">
                                     <td>
@@ -98,19 +98,19 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${persona.activo == true}">
-                                            <form method="POST" id="formDesactivar" action="DesactivarCuentaServlet">
-                                                <input type="hidden" name="persona_id" value="${persona.id}">
+                                            <form method="POST" id="formDesactivar${persona.id}" action="DesactivarCuentaServlet">
+                                                <input type="hidden" name="persona_id" id="id_dato" value="${persona.id}">
                                                 <input type="hidden" name="persona_run" value="${persona.run}">
                                                 <input type="hidden" name="persona_dv" value="${persona.dv}">
-                                                <img src="img/x-2x-desactivar.png" border="0" onclick="desactivar()" id="seleccionar" />
+                                                <img src="img/x-2x-desactivar.png" border="0" onclick="desactivar(${persona.id})" id="seleccionar" />
                                             </form>
                                         </c:when>
                                         <c:otherwise>
-                                            <form method="POST" id="formActivar" action="ActivarCuentaServlet">
-                                                <input type="hidden" name="persona_id" value="${persona.id}">
+                                            <form method="POST" id="formActivar${persona.id}" action="ActivarCuentaServlet">
+                                                <input type="hidden" name="persona_id" id="id_dato" value="${persona.id}">
                                                 <input type="hidden" name="persona_run" value="${persona.run}">
                                                 <input type="hidden" name="persona_dv" value="${persona.dv}">
-                                                <img src="img/check-2x-activar.png" border="0" onclick="activar()" id="seleccionar" />
+                                                <img src="img/check-2x-activar.png" border="0" onclick="activar(${persona.id})" id="seleccionar" />
                                             </form>
                                         </c:otherwise>
                                     </c:choose>
@@ -136,18 +136,18 @@
         </div>
     </body>
     <script>
-        function desactivar() {
+        function desactivar(id) {
             if (confirm("¿Seguro que desea desactivar la cuenta?")) {
-                document.getElementById("formDesactivar").submit();
+                document.getElementById("formDesactivar"+id).submit();               
                 console.log("true");
             } else
-            {
+            {                
                 console.log("false");
             }
         }
-        function activar() {
+        function activar(id) {
             if (confirm("¿Seguro que desea reactivar la cuenta?")) {
-                document.getElementById("formActivar").submit();
+                document.getElementById("formActivar"+id).submit();
                 console.log("true");
             } else
             {

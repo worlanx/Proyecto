@@ -56,6 +56,26 @@
         <servlet-name>RegistrarResultadoServlet</servlet-name>
         <servlet-class>cl.proyecto.servlet.RegistrarResultadoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletVerificarParticipante</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ServletVerificarParticipante</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CerrarEncuestaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CerrarEncuestaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActivarEncuestaServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ActivarEncuestaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarEncuestadoresServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CargarEncuestadoresServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarResultadosServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CargarResultadosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -111,6 +131,26 @@
     <servlet-mapping>
         <servlet-name>RegistrarResultadoServlet</servlet-name>
         <url-pattern>/RegistrarResultadoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletVerificarParticipante</servlet-name>
+        <url-pattern>/ServletVerificarParticipante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CerrarEncuestaServlet</servlet-name>
+        <url-pattern>/CerrarEncuestaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActivarEncuestaServlet</servlet-name>
+        <url-pattern>/ActivarEncuestaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarEncuestadoresServlet</servlet-name>
+        <url-pattern>/CargarEncuestadoresServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarResultadosServlet</servlet-name>
+        <url-pattern>/CargarResultadosServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

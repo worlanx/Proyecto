@@ -5,17 +5,13 @@
  */
 package cl.proyecto.servlet;
 
-import cl.proyecto.modelo.DetalleEncuestador;
-import cl.proyecto.modelo.DetalleEncuestadores;
 import cl.proyecto.modelo.Mensaje;
-import cl.proyecto.modelo.Persona;
-import cl.proyecto.negocio.RegistroDetalleEncuestador;
-import cl.proyecto.negocio.RegistroPersona;
+import cl.proyecto.modelo.Participante;
+import cl.proyecto.negocio.RegistroParticipante;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class TesterServlet extends HttpServlet {
+public class ServletVerificarParticipante extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,48 +36,28 @@ public class TesterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //http://localhost:8080/Proyecto/ServletVerificarParticipante?encuesta=14725369-8&run=123456789
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//http://localhost:8080/Proyecto/TesterServlet?run=14725369-8&pass=123456789
-            try {
-                request.setCharacterEncoding("UTF-8");
-                String run = request.getParameter("run").replace("-", "");
-                String pass = request.getParameter("pass");
-                RegistroPersona regPersona = new RegistroPersona();
-                Persona persona = regPersona.obtenerPersonaPorUsuario(run, pass);
-                Gson gson = new Gson();
-                if (persona != null) {
-                    if (persona.isActivo()) {
-
-                        if (persona.getCuenta().getRol().getId() == 4) {
-                            RegistroDetalleEncuestador registroDetalleEncuestador = new RegistroDetalleEncuestador();
-                            ArrayList<DetalleEncuestador> detalleEncuest = registroDetalleEncuestador.listarTodasEncuestas(persona.getId());                            
-                            DetalleEncuestadores detalleEncuestadores = new DetalleEncuestadores(persona.getId(),detalleEncuest);
-                            String json = gson.toJson(detalleEncuestadores);
-                            out.print(json);
-                        } else {
-                            Mensaje m = new Mensaje(1, "App es solo para encuestadores");
-                            String json = gson.toJson(m);
-                            out.print(json);
-                        }
-                    } else {
-                        Mensaje m = new Mensaje(2, "Cuenta inactiva");
-                        String json = gson.toJson(m);
-                        out.print(json);
-                    }
-                } else {
-                    Mensaje m = new Mensaje(3, "Usuario o contraseña invalidos");
-                    String json = gson.toJson(m);
-                    out.print(json);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(TesterServlet.class.getName()).log(Level.SEVERE, null, ex);
-                Mensaje m = new Mensaje(4, "No se pudo conectar con el servidor");
-                Gson gson = new Gson();
+            request.setCharacterEncoding("UTF-8");
+            int encuesta = Integer.parseInt(request.getParameter("encuesta"));
+            String run = request.getParameter("run");
+            RegistroParticipante registroParticipante = new RegistroParticipante();
+            Participante participante = registroParticipante.listar(encuesta, run);
+            Gson gson = new Gson();
+            if (participante == null) {
+                Mensaje m = new Mensaje(1, "Encuesta válida");
                 String json = gson.toJson(m);
                 out.print(json);
             }
+            else
+            {
+                Mensaje m = new Mensaje(2, "run ya realizó la encuesta");
+                String json = gson.toJson(m);
+                out.print(json);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServletVerificarParticipante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

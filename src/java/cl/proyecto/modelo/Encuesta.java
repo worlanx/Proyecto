@@ -17,6 +17,7 @@ public class Encuesta {
     private int valor;
     private EstadoEncuesta estado;
     private ArrayList<Pregunta> preguntas;
+    private int realizadas;
 
     public Encuesta(int id, String titulo, int valor, EstadoEncuesta estado, ArrayList<Pregunta> preguntas) {
         this.id = id;
@@ -71,6 +72,14 @@ public class Encuesta {
 
     public void setPreguntas(ArrayList<Pregunta> preguntas) {
         this.preguntas = preguntas;
+    }
+
+    public int getRealizadas() {
+        return realizadas;
+    }
+
+    public void setRealizadas(int realizadas) {
+        this.realizadas = realizadas;
     }
     
    

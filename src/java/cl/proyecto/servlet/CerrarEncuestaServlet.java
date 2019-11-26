@@ -5,15 +5,8 @@
  */
 package cl.proyecto.servlet;
 
-import cl.proyecto.modelo.Alternativa;
 import cl.proyecto.modelo.Encuesta;
-import cl.proyecto.modelo.EstadoEncuesta;
-import cl.proyecto.modelo.Pregunta;
-import cl.proyecto.modelo.TipoPregunta;
-import cl.proyecto.negocio.RegistroAlternativa;
-import cl.proyecto.negocio.RegistroDetalleEncuestador;
 import cl.proyecto.negocio.RegistroEncuesta;
-import cl.proyecto.negocio.RegistroPregunta;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -29,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class CrearEncuestaServlet extends HttpServlet {
+public class CerrarEncuestaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +41,10 @@ public class CrearEncuestaServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CrearEncuestaServlet</title>");
+            out.println("<title>Servlet CerrarEncuestaServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CrearEncuestaServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CerrarEncuestaServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -85,51 +78,15 @@ public class CrearEncuestaServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            request.setCharacterEncoding("UTF-8");
-            String titulo = request.getParameter("titulo");
-            int valor = Integer.parseInt(request.getParameter("valor"));
-
-            Encuesta encuesta = new Encuesta(1, titulo, valor, new EstadoEncuesta(1, ""));
+            int id = Integer.parseInt(request.getParameter("encuesta_id"));
             RegistroEncuesta registroEncuesta = new RegistroEncuesta();
-            registroEncuesta.agregar(encuesta);
-            int id = registroEncuesta.obtenerEncuestaId();
-
-            String[] pre = request.getParameterValues("pregunta");
-            String[] numeroPregunta = request.getParameterValues("numeroPregunta");
-            String[] ids = request.getParameterValues("encuLista");
-
-            for (int i = 0; i < pre.length; i++) {
-                String tipo = request.getParameter(String.format("multiple%s", numeroPregunta[i]));
-                TipoPregunta tipoPregunta = new TipoPregunta(1);
-                if (tipo != null) {
-                    tipoPregunta.setId(2);
-                }
-                Pregunta pregunta = new Pregunta(pre[i], tipoPregunta, id);
-                RegistroPregunta registroPregunta = new RegistroPregunta();
-                registroPregunta.agregar(pregunta);
-                int idPregunta = registroPregunta.obtenerPreguntaId();
-
-                String[] alternativas = request.getParameterValues(String.format("alt%s", numeroPregunta[i]));
-                for (int j = 0; j < alternativas.length; j++) {
-                    String alt = alternativas[j];
-                    Alternativa alternativa = new Alternativa(0, alt, idPregunta);
-                    RegistroAlternativa registroAlternativa = new RegistroAlternativa();
-                    registroAlternativa.agregar(alternativa);
-                }
-            }
-            RegistroDetalleEncuestador registroDetalleEncuestador = new RegistroDetalleEncuestador();
-            for (String item : ids) {
-                registroDetalleEncuestador.agregarSimple(Integer.parseInt(item), id);
-            }
+            registroEncuesta.cerrar(id);
             ArrayList<Encuesta> encuestas = registroEncuesta.listarEncuestas();
             request.getSession().setAttribute("encuestas", encuestas);
             request.getSession().setAttribute("cantidad", encuestas.size());
-            request.getSession().setAttribute("encuestaExito", "Cuenta Registrada Exitosamente");
-            response.sendRedirect("crearencuesta.jsp");
+            response.sendRedirect("jefedeestudio.jsp");
         } catch (SQLException ex) {
-            Logger.getLogger(CrearEncuestaServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("encuestaError", "No se pudo registar la encuesta, verifique la información");
-            response.sendRedirect("crearencuesta.jsp");
+            Logger.getLogger(CerrarEncuestaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

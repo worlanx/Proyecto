@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class DetalleRespuestas {
     private int usuario_id;
     private int encuesta_id;
+    private String run_participante;
     private ArrayList<Respuesta> detalleRespuesta;
 
     public DetalleRespuestas(int usuario_id, int encuesta_id, ArrayList<Respuesta> detalleRespuesta) {
@@ -21,6 +22,14 @@ public class DetalleRespuestas {
         this.encuesta_id = encuesta_id;
         this.detalleRespuesta = detalleRespuesta;
     }
+
+    public DetalleRespuestas(int usuario_id, int encuesta_id, String run_participante, ArrayList<Respuesta> detalleRespuesta) {
+        this.usuario_id = usuario_id;
+        this.encuesta_id = encuesta_id;
+        this.run_participante = run_participante;
+        this.detalleRespuesta = detalleRespuesta;
+    }
+    
 
     public int getUsuario_id() {
         return usuario_id;
@@ -45,6 +54,12 @@ public class DetalleRespuestas {
     public void setDetalleRespuesta(ArrayList<Respuesta> detalleRespuesta) {
         this.detalleRespuesta = detalleRespuesta;
     }
-    
-    
+
+    public String getRun_participante() {
+        return run_participante;
+    }
+
+    public void setRun_participante(String run_participante) {
+        this.run_participante = run_participante;
+    }
 }

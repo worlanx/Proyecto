@@ -5,8 +5,10 @@
  */
 package cl.proyecto.servlet;
 
+import cl.proyecto.modelo.Encuesta;
 import cl.proyecto.modelo.Persona;
 import cl.proyecto.negocio.RegistroComuna;
+import cl.proyecto.negocio.RegistroEncuesta;
 import cl.proyecto.negocio.RegistroGenero;
 import cl.proyecto.negocio.RegistroPersona;
 import cl.proyecto.negocio.RegistroProvincia;
@@ -129,6 +131,10 @@ public class LoginServlet extends HttpServlet {
                                 ;
                                 break;
                             case 3:
+                                RegistroEncuesta registroEncuesta = new RegistroEncuesta();
+                                ArrayList<Encuesta> encuestas = registroEncuesta.listarEncuestas();
+                                request.getSession().setAttribute("encuestas", encuestas);
+                                request.getSession().setAttribute("cantidad", encuestas.size());
                                 response.sendRedirect("jefedeestudio.jsp");
                                 ;
                                 break;                           

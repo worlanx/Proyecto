@@ -40,6 +40,25 @@ public class RegistroEncuesta {
         return res;
     }
     
+    public int habilitar(int id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update encuesta set estado_id = 2 where id = ?");
+        sm.setInt(1, id);
+        int res = sm.executeUpdate();
+        sm.close();
+        return res;
+    }
+    
+    public int cerrar(int id) throws SQLException
+    {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("update encuesta set estado_id = 3 where id = ?");
+        sm.setInt(1, id);
+        int res = sm.executeUpdate();
+        sm.close();
+        return res;
+    }
+    
+    
     public int activar(int id) throws SQLException
     {
         PreparedStatement sm = Conexion.getConnection().prepareCall("update encuesta set activo = 1 where id = ?");
@@ -95,7 +114,7 @@ public class RegistroEncuesta {
         
     public ArrayList<Encuesta> listarEncuestas() throws SQLException
     {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select titulo, valor, estado_id from encuesta where activo = 1");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select id, titulo, valor, estado_id from encuesta where activo = 1");
         ResultSet rs = sm.executeQuery();
         ArrayList<Encuesta> encuestas = new ArrayList<>();
         while (rs.next()) {            
@@ -107,10 +126,12 @@ public class RegistroEncuesta {
             EstadoEncuesta estadoEncuesta = registroEstadoEncuesta.obtenerEstadoEncuesta(estado_id);
             
             RegistroPregunta registroPregunta = new RegistroPregunta();
-            ArrayList<Pregunta> preguntas = registroPregunta.listarPreguntasPorEncuesta(id);          
-            
-            
+            ArrayList<Pregunta> preguntas = registroPregunta.listarPreguntasPorEncuesta(id);                 
             Encuesta encuesta = new Encuesta(id, titulo, valor, estadoEncuesta, preguntas);
+            
+            RegistroDetalleEncuestador registroDetalleEncuestador = new RegistroDetalleEncuestador();
+            int total = registroDetalleEncuestador.cantidadEncuestasTotales(id);
+            encuesta.setRealizadas(total);
             encuestas.add(encuesta);
         }
         sm.close();

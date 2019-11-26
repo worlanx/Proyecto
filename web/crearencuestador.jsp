@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <form action="CrearEncustadorServlet" method="POST">
+            <form action="CrearEncuestadorServlet" method="POST">
                 <div class="row center-xs">
                     <div class="col-xs-12 col-md-4">
                         <div class="form-group">

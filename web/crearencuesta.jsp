@@ -103,6 +103,52 @@
 
                 <br>
                 <div class="row center-xs">
+                    <div class="col-xs-12 col-md-5">
+                        <div class="form-group ">                            
+                                <label for="titulo">Asignar encuestadores</label>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Run</th>
+                                            <th scope="col">Nombre</th>                                                     
+                                            <th scope="col">Seleccionar</th>                            
+                                        </tr>
+                                    </thead>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.cantidad != 0}">
+                                            <tbody>
+                                                <c:forEach items="${sessionScope.encuestadores}" var="encuestador">
+
+                                                    <tr>
+                                                        <th scope="row">
+                                                            ${encuestador.run}-${encuestador.dv}
+                                                        </th>
+
+                                                        <td>
+                                                            ${encuestador.nombre} ${encuestador.apellidoPaterno} ${encuestador.apellidoMaterno}
+                                                        </td>                                              
+                                                        <td>
+                                                            <input type="checkbox" name="encuLista" value="${encuestador.id}">
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">n/a</th>
+                                                    <td>n/a</td>
+                                                    <td>n/a</td>   
+                                                </tr>
+                                            </tbody>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </table>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-xs">
                     <div class="col-xs-12 col-md-8">
                         <div class="form-group ">
                             <input name="registar" class="btn btn-success" id="registar" type="submit" value="Registrar">

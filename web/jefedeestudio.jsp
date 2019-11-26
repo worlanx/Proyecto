@@ -48,9 +48,127 @@
                     <a href="crearcuentausuario.jsp"><button class="btn btn-success">Ver Encuestadores</button></a>
                 </div>
                 <div class="col-xs-12 col-md-2">
-                    <a href="crearencuesta.jsp"><button class="btn btn-success">Crear Encuesta</button></a>
+                    <form method="POST" action="CargarEncuestadoresServlet">
+                        <input name="Cerrar" class="btn btn-success" id="Cerrar" type="submit"  value="Crear Encuesta">                        
+                    </form>
+
                 </div>               
             </div>
         </div>
+        <br>
+        <br>
+        <div class="container">
+            <div class="row justify-content-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Encuesta</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Modificar encuesta</th>
+                            <th scope="col">Activar Encuesta</th>
+                            <th scope="col">Cerrar encuesta</th>
+                            <th scope="col">Realizadas</th>
+                            <th scope="col">Resultados</th>
+                        </tr>
+                    </thead>
+                    <c:choose>
+                        <c:when test="${sessionScope.cantidad != 0}">
+                            <tbody>
+                                <c:forEach items="${sessionScope.encuestas}" var="encuesta">
+                                    <tr>
+                                        <th scope="row">
+                                            ${encuesta.id}
+                                        </th>
+                                        <td>
+                                            ${encuesta.titulo}
+                                        </td>
+                                        <td>
+                                            $${encuesta.valor}
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="encuesta_id" value="${encuesta.id}">
+                                                <c:choose>
+                                                    <c:when test="${encuesta.estado.id == 1}">
+                                                        <input name="Modificar" class="btn btn-warning" id="modificar" type="submit" value="Modificar">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input name="Modificar" class="btn btn-warning" id="modificar" disabled type="submit" value="Modificar">
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST" id="activarEnceusta${encuesta.id}" action="ActivarEncuestaServlet">
+                                                <input type="hidden" name="encuesta_id" value="${encuesta.id}">
+                                                <c:choose>
+                                                    <c:when test="${encuesta.estado.id == 1}">
+                                                        <input name="Activar" class="btn btn-success" id="Activar" type="button" onclick="activar(${encuesta.id})"  value="Activar">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input name="Activar" class="btn btn-success" id="Activar" disabled type="submit" value="Activar">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST" id="cerrarEnceusta${encuesta.id}" action="CerrarEncuestaServlet">
+                                                <input type="hidden" name="encuesta_id" value="${encuesta.id}">
+                                                <c:choose>
+                                                    <c:when test="${encuesta.estado.id == 2}">
+                                                        <input name="Cerrar" class="btn btn-danger" id="Cerrar" type="button" onclick="cerrar(${encuesta.id})" value="Cerrar">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input name="Cerrar" class="btn btn-danger" id="Cerrar" disabled type="button"  value="Cerrar">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
+                                        </td>
+                                        <td>
+                                             ${encuesta.realizadas}
+                                        </td>
+                                        <td>
+                                            <form method="POST"  action="CargarResultadosServlet">
+                                                <input type="hidden" name="encuesta_id" value="${encuesta.id}">
+                                                <c:choose>
+                                                    <c:when test="${encuesta.estado.id != 1}">
+                                                        <input name="Ver" class="btn btn-success" id="ver" type="submit" value="Ver">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input name="Ver" class="btn btn-success" id="ver" disabled type="submit" value="Ver">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
+                                        </td>
+                                    </tr>                                    
+                                </c:forEach>
+                            </tbody>
+                        </c:when>
+                    </c:choose>
+                </table>
+            </div>
+        </div>
     </body>
+    <script>
+        function cerrar(id) {
+            if (confirm("¿Seguro que desea cerrar la Encuesta?, Los encuestadores no podrán realizar más la encuesta si es cerrada")) {
+                document.getElementById("cerrarEnceusta" + id).submit();
+                console.log("true");
+            } else
+            {
+                console.log("false");
+            }
+        }
+        function activar(id) {
+            if (confirm("¿Seguro que desea activar la Encuesta?, No se podrá módificar si es activada")) {
+                document.getElementById("activarEnceusta" + id).submit();
+                console.log("true");
+            } else
+            {
+                console.log("false");
+            }
+        }
+    </script>
 </html>

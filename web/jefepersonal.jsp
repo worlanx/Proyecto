@@ -101,19 +101,19 @@
                                         <td>
                                             <c:choose>
                                                 <c:when test="${encuestador.activo == true}">
-                                                    <form method="POST" id="formDesactivar" action="DesactivarEncuestadorServlet">
+                                                    <form method="POST" id="formDesactivar${encuestador.id}" action="DesactivarEncuestadorServlet">
                                                         <input type="hidden" name="persona_id" value="${encuestador.id}">
                                                         <input type="hidden" name="persona_run" value="${encuestador.run}">
                                                         <input type="hidden" name="persona_dv" value="${encuestador.dv}">
-                                                        <img src="img/x-2x-desactivar.png" border="0" onclick="desactivar()" id="seleccionar" />
+                                                        <img src="img/x-2x-desactivar.png" border="0" onclick="desactivar(${encuestador.id})" id="seleccionar" />
                                                     </form>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <form method="POST" id="formActivar" action="ActivarEncuestadorServlet">
+                                                    <form method="POST" id="formActivar${encuestador.id}" action="ActivarEncuestadorServlet">
                                                         <input type="hidden" name="persona_id" value="${encuestador.id}">
                                                         <input type="hidden" name="persona_run" value="${encuestador.run}">
                                                         <input type="hidden" name="persona_dv" value="${encuestador.dv}">
-                                                        <img src="img/check-2x-activar.png" border="0" onclick="activar()" id="seleccionar" />
+                                                        <img src="img/check-2x-activar.png" border="0" onclick="activar(${encuestador.id})" id="seleccionar" />
                                                     </form>
                                                 </c:otherwise>
                                             </c:choose>
@@ -139,18 +139,18 @@
         </div>
     </body>
     <script>
-        function desactivar() {
+        function desactivar(id) {
             if (confirm("¿Seguro que desea desactivar la cuenta?")) {
-                document.getElementById("formDesactivar").submit();
+                document.getElementById("formDesactivar"+id).submit();
                 console.log("true");
             } else
             {
                 console.log("false");
             }
         }
-        function activar() {
+        function activar(id) {
             if (confirm("¿Seguro que desea reactivar la cuenta?")) {
-                document.getElementById("formActivar").submit();
+                document.getElementById("formActivar"+id).submit();
                 console.log("true");
             } else
             {
