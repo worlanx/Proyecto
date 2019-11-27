@@ -5,6 +5,8 @@
  */
 package cl.proyecto.servlet;
 
+import cl.proyecto.modelo.Alternativa;
+import cl.proyecto.modelo.ListaResultado;
 import cl.proyecto.modelo.Pregunta;
 import cl.proyecto.modelo.Resultado;
 import cl.proyecto.negocio.RegistroPregunta;
@@ -87,8 +89,21 @@ public class CargarResultadosServlet extends HttpServlet {
             RegistroPregunta registroPregunta = new RegistroPregunta();
             ArrayList<Pregunta> preguntas = registroPregunta.listarPreguntasPorEncuesta(encuesta_id);
             request.getSession().setAttribute("preguntas", preguntas);
-            String[] colores = new String[]{"RGB(255, 0, 0)", "RGB(128, 0, 0)", "RGB(255, 255, 0)", "RGB(128, 128, 0)", "RGB(0, 255, 0)", "RGB(0, 128, 0)", "RGB(0, 255, 255)", "RGB(0, 128, 128)", "RGB(0, 0, 255)", "RGB(0, 0, 128)", "RGB(255, 0, 255)", "RGB(128, 0, 128)"};
-            ArrayList<String> res = new ArrayList<>();
+            String[] colores = new String[]{"RGB(255, 0, 0, 0.50)", "RGB(255, 255, 0, 0.50)", "RGB(128, 128, 0, 0.50)", "RGB(0, 255, 0, 0.50)", "RGB(0, 128, 0, 0.50)", "RGB(0, 255, 255, 0.50)", "RGB(0, 128, 128, 0.50)", "RGB(0, 0, 255, 0.50)", "RGB(0, 0, 128, 0.50)", "RGB(255, 0, 255, 0.50)", "RGB(128, 0, 128, 0.50)"};
+            ArrayList<String> resPie = new ArrayList<>();
+            ArrayList<String> resBar = new ArrayList<>();
+            ArrayList<String> resLine = new ArrayList<>();
+            ListaResultado listaResultado = new ListaResultado();
+            for (Pregunta pregunta : preguntas) {
+                for (Alternativa alternativa : pregunta.getAlternativas()) {
+                    Resultado resu = new Resultado(pregunta.getId(), alternativa.getId(), encuesta_id, 0, pregunta.getTitulo(), alternativa.getDescripcion());
+                    listaResultado.getLista().add(resu);
+                }
+            }
+
+            for (Resultado resultado : resultados) {
+                listaResultado.modificarCantidad(resultado.getAlternativa_id(), resultado.getCantidad());
+            }
 
             for (Pregunta pregunta : preguntas) {
                 String label = "";
@@ -100,12 +115,16 @@ public class CargarResultadosServlet extends HttpServlet {
                 backgroundColor.append("backgroundColor: [ ");
                 int contador = 0;
                 label = "'" + pregunta.getTitulo() + "'";
-                for (Resultado resultado : resultados) {
+                for (Resultado resultado : listaResultado.getLista()) {
                     if (resultado.getPregunta_id() == pregunta.getId()) {
                         labels.append("'" + resultado.getDescripcion() + "',");
                         datos.append(resultado.getCantidad() + ",");
                         backgroundColor.append("'" + colores[contador] + "',");
                         contador++;
+                        if(contador >= 11)
+                        {
+                            contador = 0;
+                        }
                     }
                 }
                 datos.append("]");
@@ -114,11 +133,42 @@ public class CargarResultadosServlet extends HttpServlet {
                 String borderColor = "'RGB(192, 192, 192)'";
                 String datasets = String.format("datasets: [{ label: %s, %s, borderColor: %s, %s }]", label, backgroundColor.toString().replace(",]", "]"), borderColor, datos.toString().replace(",]", "]"));
                 String data = String.format("{type: 'pie', data: { %s, %s }, options: {responsive: true}}", labels.toString().replace(",]", "]"), datasets);
-                res.add(data);
+                resPie.add(data);
+                String dataBar = String.format("{type: 'bar', data: { %s, %s }, options: { scales: { yAxes: [ { ticks: { beginAtZero: true } } ] } }}", labels.toString().replace(",]", "]"), datasets);
+                resBar.add(dataBar);
+                String dataLine = String.format("{type: 'line', data: { %s, %s }, options: { scales: { yAxes: [ { ticks: { beginAtZero: true } } ] } }}", labels.toString().replace(",]", "]"), datasets);
+                resLine.add(dataLine);
             }
 
-            request.getSession().setAttribute("dataset", res);
-            
+//            for (Pregunta pregunta : preguntas) {
+//                String label = "";
+//                StringBuilder labels = new StringBuilder();
+//                labels.append("labels: [");
+//                StringBuilder datos = new StringBuilder();
+//                datos.append("data: [");
+//                StringBuilder backgroundColor = new StringBuilder();
+//                backgroundColor.append("backgroundColor: [ ");
+//                int contador = 0;
+//                label = "'" + pregunta.getTitulo() + "'";
+//                for (Resultado resultado : resultados) {
+//                    if (resultado.getPregunta_id() == pregunta.getId()) {
+//                        labels.append("'" + resultado.getDescripcion() + "',");
+//                        datos.append(resultado.getCantidad() + ",");
+//                        backgroundColor.append("'" + colores[contador] + "',");
+//                        contador++;
+//                    }
+//                }
+//                datos.append("]");
+//                labels.append("]");
+//                backgroundColor.append("]");
+//                String borderColor = "'RGB(192, 192, 192)'";
+//                String datasets = String.format("datasets: [{ label: %s, %s, borderColor: %s, %s }]", label, backgroundColor.toString().replace(",]", "]"), borderColor, datos.toString().replace(",]", "]"));
+//                String data = String.format("{type: 'pie', data: { %s, %s }, options: {responsive: true}}", labels.toString().replace(",]", "]"), datasets);
+//                res.add(data);
+//            }
+            request.getSession().setAttribute("datasetPie", resPie);
+            request.getSession().setAttribute("datasetBar", resBar);
+            request.getSession().setAttribute("datasetLine", resLine);
 
             response.sendRedirect("verresultados.jsp");
         } catch (SQLException ex) {

@@ -50,19 +50,66 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <div class="container">
+            <div class="row end-md">
+                <div class="col-xs-12 col-md-2">
+                    <input type="button" value="barras">
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <input type="button" value="Lineas" onclick="linea()">
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <input type="button" value="Circular">
+                </div>
+            </div>
+        </div>
         <article> 
             <c:forEach items="${sessionScope.preguntas}" var="pregunta" varStatus="paso">
                 <br>
                 <br>
                 <div class="container">
-                    <div class="row justify-content-center">
+                    <div class=" center-xs ">
                         <h2>${pregunta.titulo}</h2>
                         <canvas id="myChart${pregunta.id}"></canvas>
                         <script>
                             var ctx = document.getElementById('myChart${pregunta.id}').getContext('2d');
-                            var data = ${sessionScope.dataset.get(paso.index)};
-                            var chart = new Chart(ctx, data);
+                            var data = ${sessionScope.datasetPie.get(paso.index)};
+                            var chart${pregunta.id} = new Chart(ctx, data);
+
+                            function updateChartType${pregunta.id}() {
+                                // Since you can't update chart type directly in Charts JS you must destroy original chart and rebuild
+                                chart${pregunta.id}.destroy();
+                                var ctx = document.getElementById('myChart${pregunta.id}').getContext('2d');
+                                switch (document.getElementById("chartType${pregunta.id}").value)
+                                {
+                                    case 'line':
+                                        var dataLine = ${sessionScope.datasetLine.get(paso.index)};
+                                        chart${pregunta.id} = new Chart(ctx, dataLine);
+
+                                        break;
+                                    case 'bar':
+                                        var dataBar = ${sessionScope.datasetBar.get(paso.index)};
+                                        chart${pregunta.id} = new Chart(ctx, dataBar);
+
+                                        break;
+                                    case 'pie':
+                                        var dataPie = ${sessionScope.datasetPie.get(paso.index)};
+                                        chart${pregunta.id} = new Chart(ctx, dataPie);
+
+                                        break;
+                                }
+                            }
+                            ;
                         </script>
+                        <br>
+                        <br>
+                        <select name="chartType" id="chartType${pregunta.id}" onchange="updateChartType${pregunta.id}()">
+                            <option value="pie" selected="">Circular</option>
+                            <option value="line">Línea</option>    
+                            <option value="bar">Barra</option>                             
+                        </select>
                     </div>
                 </div>
 
