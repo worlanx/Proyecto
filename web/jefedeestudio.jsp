@@ -45,7 +45,7 @@
         <div class="container">
             <div class="row end-md">
                 <div class="col-xs-12 col-md-2">
-                    <a href="crearcuentausuario.jsp"><button class="btn btn-success">Ver Encuestadores</button></a>
+                    <a href="CargarEncuestadoresServlet"><button class="btn btn-success">Ver Encuestadores</button></a>
                 </div>
                 <div class="col-xs-12 col-md-2">
                     <form method="POST" action="CargarEncuestadoresServlet">

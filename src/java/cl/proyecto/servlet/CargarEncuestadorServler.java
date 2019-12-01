@@ -5,9 +5,7 @@
  */
 package cl.proyecto.servlet;
 
-import cl.proyecto.modelo.Persona;
-import cl.proyecto.modelo.Resumen;
-import cl.proyecto.negocio.RegistroPersona;
+import cl.proyecto.modelo.ResumenEncuesta;
 import cl.proyecto.negocio.RegistroResumen;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class CargarEncuestadoresServlet extends HttpServlet {
+public class CargarEncuestadorServler extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +41,10 @@ public class CargarEncuestadoresServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CargarEncuestadoresServlet</title>");
+            out.println("<title>Servlet CargarEncuestadorServler</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CargarEncuestadoresServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CargarEncuestadorServler at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,17 +62,7 @@ public class CargarEncuestadoresServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        try {
-            //processRequest(request, response);
-            RegistroResumen registroResumen = new RegistroResumen();
-            ArrayList<Resumen> resumenes = registroResumen.listarResumen();
-            request.getSession().setAttribute("resumenes", resumenes);
-            request.getSession().setAttribute("cantidad", resumenes.size());
-            response.sendRedirect("detalleencuestadores.jsp");
-        } catch (SQLException ex) {
-            Logger.getLogger(CargarEncuestadoresServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -90,13 +78,16 @@ public class CargarEncuestadoresServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            RegistroPersona regPersona = new RegistroPersona();
-            ArrayList<Persona> encuestadores = regPersona.listarEncuestadores();
-            request.getSession().setAttribute("encuestadores", encuestadores);
-            response.sendRedirect("crearencuesta.jsp");
+            int id = Integer.parseInt(request.getParameter("resumen_id"));
+            RegistroResumen registroResumen = new RegistroResumen();
+            ArrayList<ResumenEncuesta> resumenEncuestas = registroResumen.listarResumenEncuesta(id);
+            request.getSession().setAttribute("encuestas", resumenEncuestas);
+            request.getSession().setAttribute("cantidadE", resumenEncuestas.size());
+            response.sendRedirect("detalleencuestador.jsp");
         } catch (SQLException ex) {
-            Logger.getLogger(CargarEncuestadoresServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CargarEncuestadorServler.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
     }
 
     /**

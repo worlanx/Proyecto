@@ -71,7 +71,6 @@
                         <c:when test="${sessionScope.cantidad != 0}">
                             <tbody>
                                 <c:forEach items="${sessionScope.encuestadores}" var="encuestador">
-
                                     <tr>
                                         <th scope="row">
                                             ${persona.run}-${persona.dv}
@@ -87,7 +86,7 @@
                                             ${encuestador.apellidoMaterno}
                                         </td>
                                         <td>
-                                            <button class="btn btn-success">Pagar</button>
+                                            <button class="btn btn-success">Pagos</button>
                                         </td>
                                         <td>
                                             <form method="POST" action="ModificarEncuestadorServlet">
@@ -141,7 +140,7 @@
     <script>
         function desactivar(id) {
             if (confirm("¿Seguro que desea desactivar la cuenta?")) {
-                document.getElementById("formDesactivar"+id).submit();
+                document.getElementById("formDesactivar" + id).submit();
                 console.log("true");
             } else
             {
@@ -150,7 +149,7 @@
         }
         function activar(id) {
             if (confirm("¿Seguro que desea reactivar la cuenta?")) {
-                document.getElementById("formActivar"+id).submit();
+                document.getElementById("formActivar" + id).submit();
                 console.log("true");
             } else
             {
