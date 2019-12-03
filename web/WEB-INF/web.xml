@@ -80,6 +80,22 @@
         <servlet-name>CargarEncuestadorServler</servlet-name>
         <servlet-class>cl.proyecto.servlet.CargarEncuestadorServler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListarPagoServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.ListarPagoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarOrdenServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CargarOrdenServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarOrdenesServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.CargarOrdenesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrarOrdenServlet</servlet-name>
+        <servlet-class>cl.proyecto.servlet.RegistrarOrdenServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -159,6 +175,22 @@
     <servlet-mapping>
         <servlet-name>CargarEncuestadorServler</servlet-name>
         <url-pattern>/CargarEncuestadorServler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarPagoServlet</servlet-name>
+        <url-pattern>/ListarPagoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarOrdenServlet</servlet-name>
+        <url-pattern>/CargarOrdenServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarOrdenesServlet</servlet-name>
+        <url-pattern>/CargarOrdenesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarOrdenServlet</servlet-name>
+        <url-pattern>/RegistrarOrdenServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

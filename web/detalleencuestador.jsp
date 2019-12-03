@@ -46,7 +46,7 @@
             <!-- /.Navbar -->
             <div class="container">
                 <div class="row end-xs">
-                    <a href="jefedeestudio.jsp"><button class="btn btn-success">volver</button></a>
+                    <a href="detalleencuestadores.jsp"><button class="btn btn-success">volver</button></a>
                 </div>
             </div>            
         </header>
@@ -66,7 +66,7 @@
                     <c:choose>
                         <c:when test="${sessionScope.cantidadE != 0}">
                             <tbody>
-                                <c:forEach items="${sessionScope.encuestas}" var="encuestador">
+                                <c:forEach items="${sessionScope.encuestasE}" var="encuestador">
                                     <tr>
                                         <td>
                                             ${encuestador.titulo}

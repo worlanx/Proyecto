@@ -51,20 +51,7 @@
             </div>
         </div>
         <br>
-        <br>
-        <div class="container">
-            <div class="row end-md">
-                <div class="col-xs-12 col-md-2">
-                    <input type="button" value="barras">
-                </div>
-                <div class="col-xs-12 col-md-2">
-                    <input type="button" value="Lineas" onclick="linea()">
-                </div>
-                <div class="col-xs-12 col-md-2">
-                    <input type="button" value="Circular">
-                </div>
-            </div>
-        </div>
+        <br>       
         <article> 
             <c:forEach items="${sessionScope.preguntas}" var="pregunta" varStatus="paso">
                 <br>

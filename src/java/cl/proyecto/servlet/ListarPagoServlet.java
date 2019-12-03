@@ -5,8 +5,10 @@
  */
 package cl.proyecto.servlet;
 
-import cl.proyecto.modelo.ResumenEncuesta;
-import cl.proyecto.negocio.RegistroResumen;
+import cl.proyecto.modelo.OrdenPago;
+import cl.proyecto.modelo.Persona;
+import cl.proyecto.negocio.RegistroOrdenPago;
+import cl.proyecto.negocio.RegistroPersona;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class CargarEncuestadorServler extends HttpServlet {
+public class ListarPagoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +43,10 @@ public class CargarEncuestadorServler extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CargarEncuestadorServler</title>");            
+            out.println("<title>Servlet ListarPagoServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CargarEncuestadorServler at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListarPagoServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,16 +80,18 @@ public class CargarEncuestadorServler extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            int id = Integer.parseInt(request.getParameter("resumen_id"));
-            RegistroResumen registroResumen = new RegistroResumen();
-            ArrayList<ResumenEncuesta> resumenEncuestas = registroResumen.listarResumenEncuesta(id);
-            request.getSession().setAttribute("encuestasE", resumenEncuestas);
-            request.getSession().setAttribute("cantidadE", resumenEncuestas.size());
-            response.sendRedirect("detalleencuestador.jsp");
+            int encuestador_id = Integer.parseInt(request.getParameter("encuestador_id"));
+            RegistroOrdenPago registroOrdenPago = new RegistroOrdenPago();
+            ArrayList<OrdenPago> ordenPagos = registroOrdenPago.listarOrden(encuestador_id);
+            RegistroPersona registroPersona = new RegistroPersona();
+            Persona per = registroPersona.obtenerPersonaPorId(encuestador_id);
+            request.getSession().setAttribute("ordenes", ordenPagos);
+            request.getSession().setAttribute("cantidadO", ordenPagos.size());
+            request.getSession().setAttribute("enc", per);
+            response.sendRedirect("listapago.jsp");
         } catch (SQLException ex) {
-            Logger.getLogger(CargarEncuestadorServler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListarPagoServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
     }
 
     /**

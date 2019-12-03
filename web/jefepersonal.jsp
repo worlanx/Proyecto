@@ -86,7 +86,10 @@
                                             ${encuestador.apellidoMaterno}
                                         </td>
                                         <td>
-                                            <button class="btn btn-success">Pagos</button>
+                                            <form method="POST" action="ListarPagoServlet">
+                                                <input type="hidden" name="encuestador_id" value="${encuestador.id}">                                                
+                                                <button class="btn btn-success">Pagos</button>
+                                            </form>
                                         </td>
                                         <td>
                                             <form method="POST" action="ModificarEncuestadorServlet">

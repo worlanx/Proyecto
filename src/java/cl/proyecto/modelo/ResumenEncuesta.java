@@ -14,6 +14,7 @@ public class ResumenEncuesta {
     private String titulo;
     private int valor;
     private int totalPago;
+    private int realizado_id;
 
     public ResumenEncuesta(int cantidad, String titulo, int valor, int totalPago) {
         this.cantidad = cantidad;
@@ -22,6 +23,14 @@ public class ResumenEncuesta {
         this.totalPago = totalPago;
     }
 
+    public ResumenEncuesta(int cantidad, String titulo, int valor, int totalPago, int realizado_id) {
+        this.cantidad = cantidad;
+        this.titulo = titulo;
+        this.valor = valor;
+        this.totalPago = totalPago;
+        this.realizado_id = realizado_id;
+    }
+    
     public int getCantidad() {
         return cantidad;
     }
@@ -52,5 +61,13 @@ public class ResumenEncuesta {
 
     public void setTotalPago(int totalPago) {
         this.totalPago = totalPago;
+    }
+
+    public int getRealizado_id() {
+        return realizado_id;
+    }
+
+    public void setRealizado_id(int realizado_id) {
+        this.realizado_id = realizado_id;
     }
 }

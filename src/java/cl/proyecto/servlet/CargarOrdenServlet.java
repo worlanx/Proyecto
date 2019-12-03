@@ -5,11 +5,15 @@
  */
 package cl.proyecto.servlet;
 
+import cl.proyecto.modelo.OrdenPago;
 import cl.proyecto.modelo.ResumenEncuesta;
+import cl.proyecto.negocio.RegistroOrdenPago;
 import cl.proyecto.negocio.RegistroResumen;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Worlan
  */
-public class CargarEncuestadorServler extends HttpServlet {
+public class CargarOrdenServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +45,10 @@ public class CargarEncuestadorServler extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CargarEncuestadorServler</title>");            
+            out.println("<title>Servlet CargarOrdenServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CargarEncuestadorServler at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CargarOrdenServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,16 +82,20 @@ public class CargarEncuestadorServler extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            int id = Integer.parseInt(request.getParameter("resumen_id"));
+            long id = Long.parseLong(request.getParameter("resumen_id"));
+            RegistroOrdenPago registroOrdenPago = new RegistroOrdenPago();
+            OrdenPago ordenPago = registroOrdenPago.listarOrdenOtro(id);
             RegistroResumen registroResumen = new RegistroResumen();
-            ArrayList<ResumenEncuesta> resumenEncuestas = registroResumen.listarResumenEncuesta(id);
-            request.getSession().setAttribute("encuestasE", resumenEncuestas);
-            request.getSession().setAttribute("cantidadE", resumenEncuestas.size());
-            response.sendRedirect("detalleencuestador.jsp");
+            ArrayList<ResumenEncuesta> resumenes = registroResumen.listarResumenPorOrden(id);
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            request.getSession().setAttribute("ord", ordenPago);
+            request.getSession().setAttribute("resumenes", resumenes);
+            request.getSession().setAttribute("formato", dateFormat); 
+            response.sendRedirect("resumenorden.jsp");
+            
         } catch (SQLException ex) {
-            Logger.getLogger(CargarEncuestadorServler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CargarOrdenServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
     }
 
     /**

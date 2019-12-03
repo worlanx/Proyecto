@@ -133,7 +133,7 @@
                                             <form method="POST"  action="CargarResultadosServlet">
                                                 <input type="hidden" name="encuesta_id" value="${encuesta.id}">
                                                 <c:choose>
-                                                    <c:when test="${encuesta.estado.id != 1}">
+                                                    <c:when test="${encuesta.estado.id != 1 && encuesta.realizadas > 0}">
                                                         <input name="Ver" class="btn btn-success" id="ver" type="submit" value="Ver">
                                                     </c:when>
                                                     <c:otherwise>
