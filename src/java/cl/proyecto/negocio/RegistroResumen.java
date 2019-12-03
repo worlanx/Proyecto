@@ -64,9 +64,9 @@ public class RegistroResumen {
         sm.close();
         return resumenes;
     }
-    
+
     public ArrayList<ResumenEncuesta> listarResumenEncuesta(int id, Date desde, Date hasta) throws SQLException {
-        PreparedStatement sm = Conexion.getConnection().prepareCall("select count(r.encuesta_id) as total, e.titulo , e.valor, r.fecha, r.id as id_re from persona as p inner join realizada as r on p.id = r.persona_run inner join encuesta as e on r.encuesta_id = e.id left join detalle_pago as dp on r.id = dp.realizada_id where p.id = ? and dp.realizada_id is null  and r.fecha between ? and ? group by p.id, encuesta_id");
+        PreparedStatement sm = Conexion.getConnection().prepareCall("select count(r.encuesta_id) as total, e.titulo , e.valor, r.fecha, r.id as id_re from persona as p inner join realizada as r on p.id = r.persona_run inner join encuesta as e on r.encuesta_id = e.id left join detalle_pago as dp on r.id = dp.realizada_id where p.id = ? and dp.realizada_id is null  and CAST(r.fecha AS DATE) between ? and ? group by p.id, encuesta_id");
         sm.setInt(1, id);
         sm.setDate(2, new java.sql.Date(desde.getTime()));
         sm.setDate(3, new java.sql.Date(hasta.getTime()));
@@ -92,7 +92,7 @@ public class RegistroResumen {
         sm.close();
         return resumenes;
     }
-    
+
     public ArrayList<ResumenEncuesta> listarResumenPorOrden(long orden_id) throws SQLException {
         PreparedStatement sm = Conexion.getConnection().prepareCall("select count(r.encuesta_id) as total, e.titulo , e.valor from persona as p inner join realizada as r on p.id = r.persona_run inner join encuesta as e on r.encuesta_id = e.id right join detalle_pago as de on de.realizada_id = r.id right join orden_pago as op on op.id = de.orden_pago_id where op.id = ? group by p.id, encuesta_id");
         sm.setLong(1, orden_id);
@@ -116,5 +116,21 @@ public class RegistroResumen {
         }
         sm.close();
         return resumenes;
+    }
+
+    public ArrayList<Integer> listarEspecial(int id, Date desde, Date hasta) throws SQLException {
+        PreparedStatement sm = Conexion.getConnection().prepareCall("SELECT r.id, r.encuesta_id FROM realizada as r left join detalle_pago as dp on r.id = dp.realizada_id where  dp.realizada_id is null and r.persona_run = ? and CAST(r.fecha AS DATE) between ? and ?;");
+        sm.setInt(1, id);
+        sm.setDate(2, new java.sql.Date(desde.getTime()));
+        sm.setDate(3, new java.sql.Date(hasta.getTime()));
+        ArrayList<Integer> numeros = new ArrayList<>();
+        ResultSet rs = sm.executeQuery();
+        while (rs.next()) {
+
+            int num = rs.getInt("id");
+            numeros.add(num);
+        }
+        sm.close();
+        return numeros;
     }
 }

@@ -84,14 +84,14 @@ public class RegistrarOrdenServlet extends HttpServlet {
         try {
             //processRequest(request, response);
             OrdenPago ordenPago = (OrdenPago)request.getSession().getAttribute("ori");
-            ArrayList<ResumenEncuesta> resumenEncuestas = (ArrayList<ResumenEncuesta>)request.getSession().getAttribute("resu");
+            ArrayList<Integer> numeros = (ArrayList<Integer>)request.getSession().getAttribute("nume");
             RegistroOrdenPago registroOrdenPago = new RegistroOrdenPago();
             registroOrdenPago.agregar(ordenPago);
             RegistroDetallePago registroDetallePago = new RegistroDetallePago();
-            for (ResumenEncuesta resumenEncuesta : resumenEncuestas) {
-                DetallePago detallePago = new DetallePago(0, resumenEncuesta.getTotalPago(), ordenPago.getId(), resumenEncuesta.getRealizado_id());
+            for (Integer numero : numeros) {
+                DetallePago detallePago = new DetallePago(0, 0, ordenPago.getId(), numero);
                 registroDetallePago.agregar(detallePago);
-            }
+            }           
             request.getSession().setAttribute("ordenCorrecto", "Orden registrada existosamente");
             Persona per = (Persona)request.getSession().getAttribute("enc");
             ArrayList<OrdenPago> ordenPagos = registroOrdenPago.listarOrden(per.getId());            

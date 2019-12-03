@@ -98,11 +98,13 @@ public class CargarOrdenesServlet extends HttpServlet {
             for (ResumenEncuesta resumenEncuesta : resumenEncuestas) {
                 total += resumenEncuesta.getTotalPago();
             }
+            ArrayList<Integer> numeros = registroResumen.listarEspecial(per.getId(), desde, hasta);
             OrdenPago ordenPago = new OrdenPago(id, actual, total);
             request.getSession().setAttribute("ori", ordenPago);
             request.getSession().setAttribute("resu", resumenEncuestas);
             request.getSession().setAttribute("canti", resumenEncuestas.size());
             request.getSession().setAttribute("formato", dateFormat);           
+            request.getSession().setAttribute("nume", numeros);  
             response.sendRedirect("generarorden.jsp");
         } catch (ParseException ex) {
             Logger.getLogger(CargarOrdenesServlet.class.getName()).log(Level.SEVERE, null, ex);
